@@ -8,6 +8,7 @@ command_exists() {
 }
 
 REQUIRED_COMMANDS="truncate parted losetup mkfs.ext4 mount docker grub-install qemu-system-x86_64"
+
 for cmd in $REQUIRED_COMMANDS; do
   if ! command_exists $cmd; then
     echo "Erreur : La commande '$cmd' est requise mais n'est pas installée."
@@ -15,10 +16,32 @@ for cmd in $REQUIRED_COMMANDS; do
   fi
 done
 
-rm -f disk.img
+#Supprimer un potentiel disque au même nom
+DISK_NAME="disk.img"
 
-cd linux-6.10.10
-make -j 16
+if [ -f "$DISK_NAME" ]; then
+  rm -vf "$DISK_NAME"
+else
+  echo "No disk found."
+fi
+
+#Rentrer dans le dossier du kernel et le compiler
+KERNEL_NAME="Rootkit-Project"
+ROOTKIT_PATH=$(sudo find ~ -name "$KERNEL_NAME" -print -quit)
+
+if [ -d "$ROOTKIT_PATH" ]; then
+  cd "$ROOTKIT_PATH" || { echo "$ROOTKIT_PATH not found." && exit 1; }
+  LINUX_NAME=$(find . -maxdepth 1 -name "linux-*" -print -quit)
+  cd "$LINUX_NAME" || { echo "$LINUX_NAME not found." && exit 1; }
+else
+  echo "$KERNEL_NAME not found."
+  exit 1
+fi
+
+make defconfig
+NB_PROC=$(nproc)
+USE_PROC=$((NB_PROC-1))
+make -j $USE_PROC
 cd ..
 
 # Créer une image disque de 450MB
@@ -53,10 +76,8 @@ sudo mkfs.ext4 "$PARTITION"
 
 # Créer un répertoire de travail
 mkdir -p /tmp/my-rootfs
-
 # Monter la partition
 sudo mount "$PARTITION" /tmp/my-rootfs
-
 # Créer un script pour exécuter les commandes dans le conteneur Docker
 cat << 'EOF' > /tmp/docker-install.sh
 #!/bin/sh
@@ -66,6 +87,7 @@ apk update
 apk add openrc
 apk add util-linux
 apk add build-base
+apk add vim
 
 # Configurer l'accès au terminal série via QEMU
 ln -s agetty /etc/init.d/agetty.ttyS0
@@ -89,22 +111,20 @@ for dir in dev proc run sys var; do mkdir /my-rootfs/${dir}; done
 EOF
 
 #tricks pour modifier le docker avant grace au Dockerfile "FROM alpine COPY ./mesmodules /lib"
-docker build . -t my_alpine
-
+sudo docker build . -t my_alpine
 chmod +x /tmp/docker-install.sh
 
 # Exécuter le conteneur Docker et le script
-docker run --rm -v /tmp/my-rootfs:/my-rootfs -v /tmp/docker-install.sh:/docker-install.sh my_alpine /docker-install.sh
-
+sudo docker run --rm -v /tmp/my-rootfs:/my-rootfs -v /tmp/docker-install.sh:/docker-install.sh my_alpine /docker-install.sh
 # De retour sur le système hôte
 # Copier le noyau compilé dans le répertoire boot
-if [ ! -f linux-6.10.10/arch/x86/boot/bzImage ]; then
-  echo "Erreur : Le noyau bzImage n'a pas été trouvé à 'linux-6.10.10/arch/x86/boot/bzImage'."
+if [ ! -f "$LINUX_NAME"/arch/x86/boot/bzImage ]; then
+  echo "Erreur : Le noyau bzImage n'a pas été trouvé à '"$LINUX_NAME"/arch/x86/boot/bzImage'."
   exit 1
 fi
 
 sudo mkdir -p /tmp/my-rootfs/boot/grub
-sudo cp linux-6.10.10/arch/x86/boot/bzImage /tmp/my-rootfs/boot/vmlinuz
+sudo cp "$LINUX_NAME"/arch/x86/boot/bzImage /tmp/my-rootfs/boot/vmlinuz
 
 # Créer le fichier grub.cfg
 cat << 'EOF' | sudo tee /tmp/my-rootfs/boot/grub/grub.cfg
@@ -112,7 +132,7 @@ serial
 terminal_input serial
 terminal_output serial
 set root=(hd0,1)
-menuentry "Linux2600" {
+menuentry "IMG FROM RTEAM" {
  linux /boot/vmlinuz root=/dev/sda1 console=ttyS0
 }
 EOF
@@ -131,4 +151,4 @@ share_folder="/tmp/qemu-share"
 mkdir -p $share_folder
 
 echo "Running QEMU..."
-qemu-system-x86_64 -hda disk.img -nographic -virtfs local,path=$share_folder,mount_tag=host0,security_model=passthrough,id=foobar 
+sudo qemu-system-x86_64 -hda disk.img -nographic -virtfs local,path=$share_folder,mount_tag=host0,security_model=passthrough,id=foobar 

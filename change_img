@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo cp script_generate_alpine_LFS.sh /usr/bin/img_alpine
+img_alpine
