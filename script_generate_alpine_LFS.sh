@@ -79,7 +79,8 @@ mkdir -p /tmp/my-rootfs
 # Monter la partition
 sudo mount "$PARTITION" /tmp/my-rootfs
 # Créer un script pour exécuter les commandes dans le conteneur Docker
-cat << 'EOF' > /tmp/docker-install.sh
+
+cat << 'EOF' > ~/Documents/ecole2600/docker-install.sh
 #!/bin/sh
 
 # Mettre à jour les dépôts et installer les paquets nécessaires
@@ -112,16 +113,19 @@ EOF
 
 #tricks pour modifier le docker avant grace au Dockerfile "FROM alpine COPY ./mesmodules /lib"
 sudo docker build . -t my_alpine
-chmod +x /tmp/docker-install.sh
+sudo chmod +x ~/Documents/ecole2600/docker-install.sh
 
 # Exécuter le conteneur Docker et le script
-sudo docker run --rm -v /tmp/my-rootfs:/my-rootfs -v /tmp/docker-install.sh:/docker-install.sh my_alpine /docker-install.sh
+sudo docker run --rm -v /tmp/my-rootfs:/my-rootfs -v ~/Documents/ecole2600/docker-install.sh:/docker-install.sh my_alpine /docker-install.sh
 # De retour sur le système hôte
 # Copier le noyau compilé dans le répertoire boot
 if [ ! -f "$LINUX_NAME"/arch/x86/boot/bzImage ]; then
   echo "Erreur : Le noyau bzImage n'a pas été trouvé à '"$LINUX_NAME"/arch/x86/boot/bzImage'."
   exit 1
 fi
+
+rm ~/Documents/ecole2600/docker-install.sh
+
 
 sudo mkdir -p /tmp/my-rootfs/boot/grub
 sudo cp "$LINUX_NAME"/arch/x86/boot/bzImage /tmp/my-rootfs/boot/vmlinuz
