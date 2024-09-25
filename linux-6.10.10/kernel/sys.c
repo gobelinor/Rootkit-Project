@@ -969,6 +969,12 @@ SYSCALL_DEFINE0(getpid)
 	return task_tgid_vnr(current);
 }
 
+SYSCALL_DEFINE0(test_will)
+{
+        printk("Hello Will et Djahid le plus beau <3 \n");
+	return 0;
+}
+
 /* Thread ID - the internal kernel "pid" */
 SYSCALL_DEFINE0(gettid)
 {

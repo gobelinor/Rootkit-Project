@@ -2,6 +2,7 @@
 
 set -e
 
+
 # Vérifier si les commandes nécessaires sont installées
 command_exists() {
   command -v "$1" >/dev/null 2>&1
@@ -17,24 +18,31 @@ for cmd in $REQUIRED_COMMANDS; do
 done
 
 #Supprimer un potentiel disque au même nom
-DISK_NAME="disk.img"
-
-if [ -f "$DISK_NAME" ]; then
-  rm -vf "$DISK_NAME"
-else
-  echo "No disk found."
+echo "Tape le nom de ton répertoire de travail:"
+read KERNEL_NAME
+if [ -z "$KERNEL_NAME" ]; then
+  echo "le nom de répertoire est vide."
+  exit 1
 fi
 
 #Rentrer dans le dossier du kernel et le compiler
-KERNEL_NAME="Rootkit-Project"
 ROOTKIT_PATH=$(sudo find ~ -name "$KERNEL_NAME" -print -quit)
+echo "ROOTKIT_PATH : $ROOTKIT_PATH"
 
 if [ -d "$ROOTKIT_PATH" ]; then
   cd "$ROOTKIT_PATH" || { echo "$ROOTKIT_PATH not found." && exit 1; }
+  
+  #Supprimer un potentiel disque au même nom
+  DISK_NAME="disk.img"
+  if [ -f "$DISK_NAME" ]; then
+    rm -vf "$DISK_NAME"
+  else
+    echo "No disk found."
+  fi
   LINUX_NAME=$(find . -maxdepth 1 -name "linux-*" -print -quit)
   cd "$LINUX_NAME" || { echo "$LINUX_NAME not found." && exit 1; }
 else
-  echo "$KERNEL_NAME not found."
+  echo "$KERNEL_NAME not found. $ROOTKIT_PATH"
   exit 1
 fi
 
