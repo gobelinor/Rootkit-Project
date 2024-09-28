@@ -80,7 +80,7 @@ mkdir -p /tmp/my-rootfs
 sudo mount "$PARTITION" /tmp/my-rootfs
 # Créer un script pour exécuter les commandes dans le conteneur Docker
 
-cat << 'EOF' > ~/Documents/ecole2600/docker-install.sh
+cat << 'EOF' > ~/docker-install.sh
 #!/bin/sh
 
 # Mettre à jour les dépôts et installer les paquets nécessaires
@@ -113,7 +113,7 @@ EOF
 
 #tricks pour modifier le docker avant grace au Dockerfile "FROM alpine COPY ./mesmodules /lib"
 sudo docker build . -t my_alpine
-sudo chmod +x ~/Documents/ecole2600/docker-install.sh
+sudo chmod +x ~/docker-install.sh
 
 # Exécuter le conteneur Docker et le script
 sudo docker run --rm -v /tmp/my-rootfs:/my-rootfs -v ~/Documents/ecole2600/docker-install.sh:/docker-install.sh my_alpine /docker-install.sh
