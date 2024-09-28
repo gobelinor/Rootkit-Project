@@ -116,7 +116,7 @@ sudo docker build . -t my_alpine
 sudo chmod +x ~/docker-install.sh
 
 # Exécuter le conteneur Docker et le script
-sudo docker run --rm -v /tmp/my-rootfs:/my-rootfs -v ~/Documents/ecole2600/docker-install.sh:/docker-install.sh my_alpine /docker-install.sh
+sudo docker run --rm -v /tmp/my-rootfs:/my-rootfs -v ~/docker-install.sh:/docker-install.sh my_alpine /docker-install.sh
 # De retour sur le système hôte
 # Copier le noyau compilé dans le répertoire boot
 if [ ! -f "$LINUX_NAME"/arch/x86/boot/bzImage ]; then
@@ -124,7 +124,7 @@ if [ ! -f "$LINUX_NAME"/arch/x86/boot/bzImage ]; then
   exit 1
 fi
 
-rm ~/Documents/ecole2600/docker-install.sh
+rm ~/docker-install.sh
 
 
 sudo mkdir -p /tmp/my-rootfs/boot/grub
