@@ -1,8 +1,11 @@
-savedcmd_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.o := gcc -Wp,-MMD,/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/.guillaume.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -include ./include/linux/compiler_types.h -D__KERNEL__ -fmacro-prefix-map=./= -Werror -std=gnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -fcf-protection=branch -fno-jump-tables -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mskip-rax-setup -mtune=generic -mno-red-zone -mcmodel=kernel -Wno-sign-compare -fno-asynchronous-unwind-tables -mindirect-branch=thunk-extern -mindirect-branch-register -mindirect-branch-cs-prefix -mfunction-return=thunk-extern -fno-jump-tables -fpatchable-function-entry=16,16 -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fomit-frame-pointer -fno-stack-clash-protection -falign-functions=16 -fno-strict-overflow -fno-stack-check -fconserve-stack -Wall -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=2048 -Wno-main -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-stringop-overflow -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wextra -Wunused -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-type-limits -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -Wno-unused-parameter  -DMODULE  -DKBUILD_BASENAME='"guillaume"' -DKBUILD_MODNAME='"guillaume"' -D__KBUILD_MODNAME=kmod_guillaume -c -o /home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.o /home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.c   ; ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --hacks=skylake --ibt --orc --retpoline --rethunk --static-call --uaccess --prefix=16  --link  --module /home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.o
+savedcmd_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network.mod.o := gcc -Wp,-MMD,/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/.kernel_network.mod.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -include ./include/linux/compiler_types.h -D__KERNEL__ -fmacro-prefix-map=./= -Werror -std=gnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -fcf-protection=branch -fno-jump-tables -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mskip-rax-setup -mtune=generic -mno-red-zone -mcmodel=kernel -Wno-sign-compare -fno-asynchronous-unwind-tables -mindirect-branch=thunk-extern -mindirect-branch-register -mindirect-branch-cs-prefix -mfunction-return=thunk-extern -fno-jump-tables -fpatchable-function-entry=16,16 -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fomit-frame-pointer -fno-stack-clash-protection -falign-functions=16 -fno-strict-overflow -fno-stack-check -fconserve-stack -Wall -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=2048 -Wno-main -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-stringop-overflow -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wextra -Wunused -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-type-limits -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -Wno-unused-parameter -DMODULE -DKBUILD_BASENAME='"kernel_network.mod"' -DKBUILD_MODNAME='"kernel_network"' -D__KBUILD_MODNAME=kmod_kernel_network -c -o /home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network.mod.o /home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network.mod.c
 
-source_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.o := /home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.c
+source_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network.mod.o := /home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network.mod.c
 
-deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.o := \
+deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network.mod.o := \
+    $(wildcard include/config/UNWINDER_ORC) \
+    $(wildcard include/config/MODULE_UNLOAD) \
+    $(wildcard include/config/MITIGATION_RETPOLINE) \
   include/linux/compiler-version.h \
     $(wildcard include/config/CC_VERSION_TEXT) \
   include/linux/kconfig.h \
@@ -23,13 +26,40 @@ deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guill
     $(wildcard include/config/CC_HAS_ASM_INLINE) \
   include/linux/compiler_attributes.h \
   include/linux/compiler-gcc.h \
-    $(wildcard include/config/MITIGATION_RETPOLINE) \
     $(wildcard include/config/GCC_ASM_GOTO_OUTPUT_WORKAROUND) \
     $(wildcard include/config/ARCH_USE_BUILTIN_BSWAP) \
     $(wildcard include/config/SHADOW_CALL_STACK) \
     $(wildcard include/config/KCOV) \
-  include/linux/init.h \
-    $(wildcard include/config/HAVE_ARCH_PREL32_RELOCATIONS) \
+  include/linux/module.h \
+    $(wildcard include/config/MODULES) \
+    $(wildcard include/config/SYSFS) \
+    $(wildcard include/config/MODULES_TREE_LOOKUP) \
+    $(wildcard include/config/LIVEPATCH) \
+    $(wildcard include/config/STACKTRACE_BUILD_ID) \
+    $(wildcard include/config/ARCH_USES_CFI_TRAPS) \
+    $(wildcard include/config/MODULE_SIG) \
+    $(wildcard include/config/GENERIC_BUG) \
+    $(wildcard include/config/KALLSYMS) \
+    $(wildcard include/config/SMP) \
+    $(wildcard include/config/TRACEPOINTS) \
+    $(wildcard include/config/TREE_SRCU) \
+    $(wildcard include/config/BPF_EVENTS) \
+    $(wildcard include/config/DEBUG_INFO_BTF_MODULES) \
+    $(wildcard include/config/JUMP_LABEL) \
+    $(wildcard include/config/TRACING) \
+    $(wildcard include/config/EVENT_TRACING) \
+    $(wildcard include/config/FTRACE_MCOUNT_RECORD) \
+    $(wildcard include/config/KPROBES) \
+    $(wildcard include/config/HAVE_STATIC_CALL_INLINE) \
+    $(wildcard include/config/KUNIT) \
+    $(wildcard include/config/PRINTK_INDEX) \
+    $(wildcard include/config/CONSTRUCTORS) \
+    $(wildcard include/config/FUNCTION_ERROR_INJECTION) \
+    $(wildcard include/config/DYNAMIC_DEBUG_CORE) \
+  include/linux/list.h \
+    $(wildcard include/config/LIST_HARDENED) \
+    $(wildcard include/config/DEBUG_LIST) \
+  include/linux/container_of.h \
   include/linux/build_bug.h \
   include/linux/compiler.h \
     $(wildcard include/config/TRACE_BRANCH_PROFILING) \
@@ -66,38 +96,6 @@ deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guill
     $(wildcard include/config/KCSAN) \
     $(wildcard include/config/KCSAN_WEAK_MEMORY) \
     $(wildcard include/config/KCSAN_IGNORE_ATOMICS) \
-  include/linux/stringify.h \
-  include/linux/module.h \
-    $(wildcard include/config/MODULES) \
-    $(wildcard include/config/SYSFS) \
-    $(wildcard include/config/MODULES_TREE_LOOKUP) \
-    $(wildcard include/config/LIVEPATCH) \
-    $(wildcard include/config/STACKTRACE_BUILD_ID) \
-    $(wildcard include/config/ARCH_USES_CFI_TRAPS) \
-    $(wildcard include/config/MODULE_SIG) \
-    $(wildcard include/config/GENERIC_BUG) \
-    $(wildcard include/config/KALLSYMS) \
-    $(wildcard include/config/SMP) \
-    $(wildcard include/config/TRACEPOINTS) \
-    $(wildcard include/config/TREE_SRCU) \
-    $(wildcard include/config/BPF_EVENTS) \
-    $(wildcard include/config/DEBUG_INFO_BTF_MODULES) \
-    $(wildcard include/config/JUMP_LABEL) \
-    $(wildcard include/config/TRACING) \
-    $(wildcard include/config/EVENT_TRACING) \
-    $(wildcard include/config/FTRACE_MCOUNT_RECORD) \
-    $(wildcard include/config/KPROBES) \
-    $(wildcard include/config/HAVE_STATIC_CALL_INLINE) \
-    $(wildcard include/config/KUNIT) \
-    $(wildcard include/config/PRINTK_INDEX) \
-    $(wildcard include/config/MODULE_UNLOAD) \
-    $(wildcard include/config/CONSTRUCTORS) \
-    $(wildcard include/config/FUNCTION_ERROR_INJECTION) \
-    $(wildcard include/config/DYNAMIC_DEBUG_CORE) \
-  include/linux/list.h \
-    $(wildcard include/config/LIST_HARDENED) \
-    $(wildcard include/config/DEBUG_LIST) \
-  include/linux/container_of.h \
   include/linux/poison.h \
     $(wildcard include/config/ILLEGAL_POINTER_VALUE) \
   include/linux/const.h \
@@ -106,6 +104,7 @@ deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guill
   arch/x86/include/asm/barrier.h \
   arch/x86/include/asm/alternative.h \
     $(wildcard include/config/CALL_THUNKS) \
+  include/linux/stringify.h \
   arch/x86/include/asm/asm.h \
   arch/x86/include/asm/extable_fixup_types.h \
   arch/x86/include/asm/nops.h \
@@ -173,6 +172,8 @@ deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guill
     $(wildcard include/config/AMD_MEM_ENCRYPT) \
   arch/x86/include/asm/mem_encrypt.h \
     $(wildcard include/config/X86_MEM_ENCRYPT) \
+  include/linux/init.h \
+    $(wildcard include/config/HAVE_ARCH_PREL32_RELOCATIONS) \
   include/linux/cc_platform.h \
     $(wildcard include/config/ARCH_HAS_CC_PLATFORM) \
   arch/x86/include/asm/math_emu.h \
@@ -1028,14 +1029,48 @@ deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guill
   include/asm-generic/error-injection.h \
   include/linux/dynamic_debug.h \
   arch/x86/include/asm/module.h \
-    $(wildcard include/config/UNWINDER_ORC) \
   include/asm-generic/module.h \
     $(wildcard include/config/HAVE_MOD_ARCH_SPECIFIC) \
     $(wildcard include/config/MODULES_USE_ELF_REL) \
     $(wildcard include/config/MODULES_USE_ELF_RELA) \
+  include/linux/build-salt.h \
+    $(wildcard include/config/BUILD_SALT) \
+  include/linux/elfnote.h \
+  include/linux/elfnote-lto.h \
+    $(wildcard include/config/LTO) \
+  include/linux/export-internal.h \
+    $(wildcard include/config/PARISC) \
+  include/linux/vermagic.h \
+    $(wildcard include/config/PREEMPT_BUILD) \
+  include/generated/utsrelease.h \
+  arch/x86/include/asm/vermagic.h \
+    $(wildcard include/config/M486SX) \
+    $(wildcard include/config/M486) \
+    $(wildcard include/config/M586) \
+    $(wildcard include/config/M586TSC) \
+    $(wildcard include/config/M586MMX) \
+    $(wildcard include/config/MCORE2) \
+    $(wildcard include/config/M686) \
+    $(wildcard include/config/MPENTIUMII) \
+    $(wildcard include/config/MPENTIUMIII) \
+    $(wildcard include/config/MPENTIUMM) \
+    $(wildcard include/config/MPENTIUM4) \
+    $(wildcard include/config/MK6) \
+    $(wildcard include/config/MK7) \
+    $(wildcard include/config/MK8) \
+    $(wildcard include/config/MELAN) \
+    $(wildcard include/config/MCRUSOE) \
+    $(wildcard include/config/MEFFICEON) \
+    $(wildcard include/config/MWINCHIPC6) \
+    $(wildcard include/config/MWINCHIP3D) \
+    $(wildcard include/config/MCYRIXIII) \
+    $(wildcard include/config/MVIAC3_2) \
+    $(wildcard include/config/MVIAC7) \
+    $(wildcard include/config/MGEODEGX1) \
+    $(wildcard include/config/MGEODE_LX) \
+  arch/x86/include/asm/orc_header.h \
+  arch/x86/include/generated/asm/orc_hash.h \
 
-/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.o: $(deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.o)
+/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network.mod.o: $(deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network.mod.o)
 
-$(deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.o):
-
-/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/guillaume.o: $(wildcard ./tools/objtool/objtool)
+$(deps_/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network.mod.o):
