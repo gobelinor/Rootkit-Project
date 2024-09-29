@@ -108,9 +108,6 @@ rc-update add sysfs boot
 rc-update add networking boot
 
 cat << 'EOF2' > /etc/network/interfaces
-auto lo
-iface lo inet loopback
-
 auto eth0
 iface eth0 inet dhcp
 EOF2
@@ -124,12 +121,10 @@ for d in bin etc lib root sbin usr; do tar c "/$d" | tar x -C /my-rootfs; done
 for dir in dev proc run sys var; do mkdir /my-rootfs/${dir}; done
 EOF
 
-#tricks pour modifier le docker avant grace au Dockerfile "FROM alpine COPY ./mesmodules /lib"
-sudo docker build . -t my_alpine
 sudo chmod +x ~/docker-install.sh
 
 # Exécuter le conteneur Docker et le script
-sudo docker run --rm -v /tmp/my-rootfs:/my-rootfs -v ~/docker-install.sh:/docker-install.sh my_alpine /docker-install.sh
+sudo docker run --rm -v /tmp/my-rootfs:/my-rootfs -v ~/docker-install.sh:/docker-install.sh alpine /docker-install.sh
 # De retour sur le système hôte
 # Copier le noyau compilé dans le répertoire boot
 if [ ! -f "$LINUX_NAME"/arch/x86/boot/bzImage ]; then
@@ -168,4 +163,7 @@ share_folder="/tmp/qemu-share"
 mkdir -p $share_folder
 
 echo "Running QEMU..."
-sudo qemu-system-x86_64 -hda disk.img -nographic -virtfs local,path=$share_folder,mount_tag=host0,security_model=passthrough,id=foobar 
+sudo qemu-system-x86_64 -drive file=disk.img,format=raw -nographic -virtfs local,path=$share_folder,mount_tag=host0,security_model=passthrough,id=foobar 
+
+# Dans qemu pour avoir le shared folder dans /tmp/share :
+# mkdir -p /tmp/share && mount -t 9p -o trans=virtio host0 /tmp/share -oversion=9p2000.L
