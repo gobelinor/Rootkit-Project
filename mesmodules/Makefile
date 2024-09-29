@@ -5,4 +5,4 @@ obj-m += francis.o
 obj-m += nathan.o
 obj-m += guillaume.o
 obj-m += airaime.o
-obj-m += tagada.o
+obj-m += kernel_network.o
