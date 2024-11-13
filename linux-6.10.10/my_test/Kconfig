@@ -1,0 +1,8 @@
+# my_test/Kconfig
+config HAVE_SYSCALL_UPTIME
+    bool "Enable uptime syscall"
+    default y
+    help
+      This option adds the uptime syscall to get the system uptime.
+      If unsure, say Y.
+

@@ -1458,7 +1458,6 @@ void __weak free_initmem(void)
 static int __ref kernel_init(void *unused)
 {
 	int ret;
-
 	/*
 	 * Wait until kthreadd is all set-up.
 	 */
