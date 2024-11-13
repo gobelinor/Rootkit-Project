@@ -70,7 +70,7 @@ static int __init hook_init(void)
 		return 0;
 	}
 
-	pr_info("[+] sys_call_table address: %p\n", (void**)syscall_table);
+	pr_info("[+] sys_call_table address: %p\n", (void*)syscall_table);
 
 	typedef int (*sysfun_t)(struct pt_regs *);
 	uint64_t old_cr0 = unprotect_memory();
@@ -81,7 +81,7 @@ static int __init hook_init(void)
 	syscall_table[__NR_read] = (uint64_t)new_read;
 	protect_memory(old_cr0);
 
-	pr_info("[+] new_read() address: %p\n", (void**)syscall_table[__NR_read]);
+	pr_info("[+] new_read() address: %p\n", (void*)syscall_table[__NR_read]);
 	pr_info("[+] read() syscall hooked\n");
 
 	unregister_kprobe(&probe);
