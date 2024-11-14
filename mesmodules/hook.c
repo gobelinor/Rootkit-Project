@@ -3,6 +3,7 @@
 #include <linux/kprobes.h>
 #include <asm/special_insns.h>
 #include <asm/processor-flags.h>
+extern unsigned long __force_order;
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("tibo.wav");
@@ -12,14 +13,12 @@ MODULE_VERSION("1.0");
 void cr0_write(unsigned long val);
 int new_read(struct pt_regs *regs);
 typedef int (*sysfun_t)(struct pt_regs *);
+typedef void *(*kallsyms_t)(const char *);
 sysfun_t old_read;
 
 void cr0_write(unsigned long val)
 {
-	asm volatile("mov %0,%%cr0" 
-				: "+r" (val)
-				:
-				: "memory");
+	asm volatile("mov %0,%%cr0":"+r" (val),"+m"(__force_order));
 }
 
 static inline unsigned long unprotect_memory(void)
@@ -37,7 +36,7 @@ static inline void protect_memory(unsigned long cr0)
 	cr0_write(cr0);
 }
 
-int new_read(struct pt_regs *regs)
+asmlinkage int new_read(struct pt_regs *regs)
 {
 	pr_info("[+] Hooked read() syscall\n");
 	return old_read(regs);
@@ -55,13 +54,9 @@ static int __init hook_init(void)
 	pr_info("[+] kallsyms_lookup_name() address: %p\n", probe.addr);
 
 	// function pointer type of kallsyms_lookup_name
-	typedef void *(*kallsyms_t)(const char *);
 	kallsyms_t lookup_name;
-	
 	lookup_name = (kallsyms_t)(probe.addr);
-
 	uint64_t *syscall_table = 0;
-
 	syscall_table = lookup_name("sys_call_table");
 
 	if (!syscall_table) {
@@ -70,22 +65,35 @@ static int __init hook_init(void)
 		return 0;
 	}
 
-	pr_info("[+] sys_call_table address: %p\n", (void*)syscall_table);
+	pr_info("[+] sys_call_table address: %lu\n", (size_t)syscall_table);
 
-	typedef int (*sysfun_t)(struct pt_regs *);
 	uint64_t old_cr0 = unprotect_memory();
 	old_read = (sysfun_t)syscall_table[__NR_read];
 
 	pr_info("[+] old_read() address: %p\n", (void*)old_read);
+    syscall_table[__NR_read] = (uint64_t)new_read;
+    protect_memory(old_cr0);
+
+    // Vérifications supplémentaires
+    pr_info("[+] new_read() address: %p\n", (void*)syscall_table[__NR_read]);
 	
-	syscall_table[__NR_read] = (uint64_t)new_read;
-	protect_memory(old_cr0);
+	pr_info("[+] __NR_read: %d\n", __NR_read);
+	
+    // Vérifier que l'adresse a bien été changée
+    if (syscall_table[__NR_read] != (uint64_t)new_read) {
+        pr_err("[-] Hook installation failed: addresses don't match\n");
+        return -1;
+    }
 
-	pr_info("[+] new_read() address: %p\n", (void*)syscall_table[__NR_read]);
-	pr_info("[+] read() syscall hooked\n");
+    // Vérifier que l'ancienne et la nouvelle adresse sont différentes
+    if (syscall_table[__NR_read] == (uint64_t)old_read) {
+        pr_err("[-] Hook installation failed: address unchanged\n");
+        return -1;
+    }
 
-	unregister_kprobe(&probe);
-	return 0;
+    pr_info("[+] read() syscall hooked successfully\n");
+    unregister_kprobe(&probe);
+    return 0;
 }
 
 static void __exit hook_exit(void)
