@@ -7,3 +7,4 @@ obj-m += guillaume.o
 obj-m += airaime.o
 obj-m += kernel_network.o
 obj-m += hook.o
+obj-m += kprobes_read.o
