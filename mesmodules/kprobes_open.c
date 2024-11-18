@@ -6,18 +6,18 @@
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("tibo.wav");
-MODULE_DESCRIPTION("Hook __x64_sys_read using kprobes");
+MODULE_DESCRIPTION("Hook __x64_sys_open using kprobes");
 
 static struct kprobe kp;
 int last_pid = 0;
 
-/* Handler for the probed function (__x64_sys_read) */
+/* Handler for the probed function (__x64_sys_open) */
 static int handler_pre(struct kprobe *p, struct pt_regs *regs)
 {
 	if (current->pid == last_pid) {
 		return 0;
 	}
-   	pr_info("[+] Hooked __x64_sys_read! PID: %d, name: %s", current->pid, current->comm);
+   	pr_info("[+] Hooked __x64_sys_open! PID: %d, name: %s", current->pid, current->comm);
 	last_pid = current->pid;
     return 0;
 }
@@ -25,7 +25,7 @@ static int handler_pre(struct kprobe *p, struct pt_regs *regs)
 
 static int __init hook_init(void)
 {
-    kp.symbol_name = "__x64_sys_read";
+    kp.symbol_name = "__x64_sys_open";
     kp.pre_handler = handler_pre;
 	
     if (register_kprobe(&kp)) {
@@ -33,14 +33,14 @@ static int __init hook_init(void)
         return -1;
     }
 
-    pr_info( "[+] __x64_sys_read hooked successfully at address: %p\n", kp.addr);
+    pr_info( "[+] __x64_sys_open hooked successfully at address: %p\n", kp.addr);
     return 0;
 }
 
 static void __exit hook_exit(void)
 {
     unregister_kprobe(&kp);
-    pr_info( "[+] __x64_sys_read unhooked successfully\n");
+    pr_info( "[+] __x64_sys_open unhooked successfully\n");
 }
 
 module_init(hook_init);

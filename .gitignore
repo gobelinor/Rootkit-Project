@@ -1,2 +1,2 @@
-disk.img
-.qcow2
+*.img
+*.qcow2

