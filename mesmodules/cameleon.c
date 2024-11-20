@@ -18,8 +18,6 @@ MODULE_DESCRIPTION("Hook __x64_sys_open using kprobes");
 
 static struct kprobe kp;
 
-bool unplug = false;
-
 /* Fonction pour rechercher nos processus visible via ps */
 static void find_and_kill_our_processes(void) {
     struct task_struct *task;
@@ -39,13 +37,22 @@ static void find_and_kill_our_processes(void) {
 			pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm);
 			pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm);
 			send_sig(SIGKILL, task, 0);
-			
+
 		}
 		// pour les sleep
-		if (strcmp(task->comm, "sleep") == 0) {
+		if (strcmp(task->comm, "sleep") == 0 && task->real_parent && strcmp(task->real_parent->comm, "sh") == 0) { 
 			pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm);
+			pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm);
 			pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm);
 			send_sig(SIGKILL, task, 0);	
+		}
+		// pour les processus noyaux sh ON PEUT PAS LES KILL CA CLC
+		if (strcmp(task->comm, "sh") == 0 && task->real_parent && strcmp(task->real_parent->comm, "init") == 0) {
+			pr_info("[+] Found kernel process: PID=%d, name=%s\n", task->pid, task->comm);
+		}
+		// pour les processus noyaux sleep
+		if (strcmp(task->comm, "sleep") == 0 && task->real_parent && strcmp(task->real_parent->comm, "init") == 0) {
+			pr_info("[+] Found kernel process: PID=%d, name=%s\n", task->pid, task->comm);
 		}
 	}
 }
