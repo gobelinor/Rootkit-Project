@@ -15,3 +15,5 @@ obj-m += my_workqueue.o
 obj-m += testworkqueue.o
 obj-m += stealthyread.o
 obj-m += kill_all_communications.o
+obj-m += kretprobes_getdents.o
+obj-m += cameleon_2.o
