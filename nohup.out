@@ -1,0 +1,259 @@
+Discord 0.0.75
+Starting app.
+Starting updater.
+2024-11-18T22:01:47.342Z [Modules] Modules initializing
+2024-11-18T22:01:47.343Z [Modules] Distribution: remote
+2024-11-18T22:01:47.343Z [Modules] Host updates: enabled
+2024-11-18T22:01:47.343Z [Modules] Module updates: enabled
+2024-11-18T22:01:47.343Z [Modules] Module install path: /home/leyyebou/.config/discord/0.0.75/modules
+2024-11-18T22:01:47.343Z [Modules] Module installed file path: /home/leyyebou/.config/discord/0.0.75/modules/installed.json
+2024-11-18T22:01:47.344Z [Modules] Module download path: /home/leyyebou/.config/discord/0.0.75/modules/pending
+splashScreen.initSplash(false)
+CDM component API found
+blackbox: 2024-11-18T22:01:47.472Z 0 
+
+----------------------------------------------
+CDM completed with status: cdm-ready-success
+blackbox: 2024-11-18T22:01:47.539Z 1 Discord starting: {"releaseChannel":"stable","version":"0.0.75"}, modulepath: /home/leyyebou/.config/discord/0.0.75/modules
+blackbox: 2024-11-18T22:01:47.541Z 2 ✅ webContents.created web1 "index.html"
+blackbox: 2024-11-18T22:01:47.542Z 3 ✅ window.created win1 "discord"
+23:01:47.595 › DiscordSplash.signalReady
+splashScreen: SPLASH_SCREEN_READY
+splashScreen.webContentsSend: SPLASH_SCREEN_QUOTE SPLASH_SCREEN_QUOTE [ 'Hold Tight — Loading Discord' ]
+2024-11-18T22:01:47.599Z [Modules] No updates to install
+splashScreen: no-pending-updates
+2024-11-18T22:01:47.600Z [Modules] Checking for host updates.
+splashScreen: checking-for-updates
+splashScreen.updateSplashState checking-for-updates checking-for-updates {}
+splashScreen.webContentsSend: SPLASH_UPDATE_STATE SPLASH_UPDATE_STATE [ { status: 'checking-for-updates' } ]
+23:01:47.634 › DiscordSplash.onStateUpdate: {"status":"checking-for-updates"}
+23:01:47.635 › Splash.onStateUpdate: {"status":"checking-for-updates"}
+[352320:1118/230147.673155:ERROR:ffmpeg_common.cc(965)] Unsupported pixel format: -1
+blackbox: 2024-11-18T22:01:47.691Z 4 ✅ webContents.did-finish-load web1
+2024-11-18T22:01:47.787Z [Modules] Host is up to date.
+2024-11-18T22:01:47.787Z [Modules] Checking for module updates at https://discord.com/api/modules/stable/versions.json
+2024-11-18T22:01:47.816Z [Modules] No module updates available.
+splashScreen: update-check-finished true 0 false
+splashScreen.launchMainWindow: false
+Optional module ./ElectronTestRpc was not included.
+splashScreen.updateSplashState launching launching {}
+splashScreen.webContentsSend: SPLASH_UPDATE_STATE SPLASH_UPDATE_STATE [ { status: 'launching' } ]
+blackbox: 2024-11-18T22:01:48.100Z 5 ✅ webContents.created web2 ""
+23:01:48.103 › DiscordSplash.onStateUpdate: {"status":"launching"}
+23:01:48.104 › Splash.onStateUpdate: {"status":"launching"}
+blackbox: 2024-11-18T22:01:48.162Z 6 ✅ window.created win2 "Discord"
+23:01:48.206 › Unrecognized Content-Security-Policy directive 'prefetch-src'.
+23:01:48.629 › [FAST CONNECT] wss://gateway.discord.gg/?encoding=etf&v=9&compress=zstd-stream, encoding: etf, version: 9
+23:01:49.012 › Initializing voice engine with audio subsystem: standard
+23:01:49.198 › [DatabaseManager] active user changed (now: 1123249141552795728, was: null, was: undefined)
+legacyModuleUpdater: installed-module discord_game_utils 1 1 true
+legacyModuleUpdater: installed-module discord_krisp 1 1 true
+23:01:49.237 › [default] [BUILD INFO] Release Channel: stable, Build Number: 345368, Version Hash: 24ebc65efd3bc7e3c88e49ba918dd3a1a70fe6e4
+23:01:49.325 › [default] [NATIVE INFO] host 0.0.75, modules: discord_desktop_core: 1, discord_erlpack: 1, discord_spellcheck: 1, discord_utils: 1, discord_voice: 1, discord_zstd: 1, discord_game_utils: 1, discord_krisp: 1, discord_rpc: 1, build: null
+mainScreen.UpdaterEvents: UPDATER_HISTORY_QUERY_AND_TRUNCATE
+23:01:49.342 › [FAST CONNECT] connected in 713ms
+mainScreen.UpdaterEvents: UPDATER_HISTORY_QUERY_AND_TRUNCATE
+WEIGHT /home/leyyebou/.config/discord/0.0.75/modules/discord_krisp/c5.n.s.20949d.kw
+WEIGHT /home/leyyebou/.config/discord/0.0.75/modules/discord_krisp/c5.s.w.c9ac8f.kw
+WEIGHT /home/leyyebou/.config/discord/0.0.75/modules/discord_krisp/c6.f.s.ced125.kw
+WEIGHT /home/leyyebou/.config/discord/0.0.75/modules/discord_krisp/VAD_model.kw
+23:01:49.938 › [Spellchecker] sh is not a valid locale.
+mainScreen.UpdaterEvents: UPDATER_HISTORY_QUERY_AND_TRUNCATE
+23:01:49.953 › Unrecognized Content-Security-Policy directive 'prefetch-src'.
+23:01:49.955 › [Spellchecker] Switching to fr-FR (available)
+23:01:50.343 › [CloudSyncUtils] CloudSync is not supported on this platform
+mainScreen.UpdaterEvents: CHECK_FOR_UPDATES UPDATE_NOT_AVAILABLE
+2024-11-18T22:01:50.368Z [Modules] Checking for host updates.
+legacyModuleUpdater: installed-module discord_rpc 1 1 true
+mainScreen.on(did-finish-load) false false
+blackbox: 2024-11-18T22:01:50.410Z 7 ✅ webContents.did-finish-load web2
+splashScreen.pageReady
+23:01:50.433 › [ConnectionStore] Socket is reconnecting because of starting new session
+23:01:50.433 › [GatewaySocket] .connect() called, new state is WILL_RECONNECT
+23:01:50.434 › [GatewaySocket] Setting connection state to WILL_RECONNECT
+23:01:50.434 › [GatewaySocket] Setting connection state to CONNECTING
+23:01:50.434 › [GatewaySocket] [CONNECT] wss://gateway.discord.gg, encoding: etf, version: 9, compression: zstd-stream
+23:01:50.434 › [GatewaySocket] [FAST CONNECT] successfully took over websocket, state: [object Object]
+23:01:50.434 › [GatewaySocket] [CONNECTED] wss://gateway.discord.gg/?encoding=etf&v=9&compress=zstd-stream in 0 ms
+23:01:50.434 › [ConnectionStore] handleIdentify called [object Object]
+23:01:50.434 › [GatewaySocket] Setting connection state to IDENTIFYING
+23:01:50.435 › [GatewaySocket] [HELLO] via 
+gateway-prd-us-east1-d-hxdr: 0, heartbeat interval: 41250, took 1 ms
+23:01:50.444 › [GatewaySocket] [IDENTIFY]
+mainScreen.UpdaterEvents: UPDATER_HISTORY_QUERY_AND_TRUNCATE
+23:01:50.476 › [RPCServer:WSS] Starting on 6463
+23:01:50.480 › [RPCServer:IPC] Starting on /run/user/1000/discord-ipc-0
+[352371:1118/230150.491248:ERROR:ffmpeg_common.cc(965)] Unsupported pixel format: -1
+blackbox: 2024-11-18T22:01:50.511Z 8 window.close win1
+blackbox: 2024-11-18T22:01:50.517Z 9 webContents.destroyed web1
+blackbox: 2024-11-18T22:01:50.519Z 10 window.closed win1
+2024-11-18T22:01:50.545Z [Modules] Host is up to date.
+2024-11-18T22:01:50.545Z [Modules] Checking for module updates at https://discord.com/api/modules/stable/versions.json
+2024-11-18T22:01:50.550Z [Modules] No module updates available.
+legacyModuleUpdater: update-check-finished
+23:01:50.984 › [GatewaySocket] [READY] took 551ms, as 29e5c7a931950c254b3dd31c794abf2a
+23:01:50.984 › [GatewaySocket] 
+gateway-prd-us-east1-d-hxdr: 166.323
+|  id_created: 1.532
+|  session_lookup_time: 0.696
+|  session_lookup_finished: 0.024
+|  discord-sessions-prd-1-201: 157.387
+|  |  start_session: 101.166
+|  |  |  discord-api-rpc-d6c64b6b7-kpqhc: 88.318
+|  |  |  |  get_user: 6.04
+|  |  |  |  get_guilds: 25.032
+|  |  |  |  user_settings_proto: 0.052
+|  |  |  |  relationships: 14.063
+|  |  |  |  friend_suggestion: 0.045
+|  |  |  |  connections: 0.103
+|  |  |  |  serialized_read_states: 0.013
+|  |  |  |  pending_payments: 0.001
+|  |  |  |  send_scheduled_deletion_message: 0.001
+|  |  |  |  sanitize_premium_perks: 0.001
+|  |  |  |  guild_join_requests: 0.001
+|  |  |  |  user_guild_settings: 1.971
+|  |  |  |  serialized_private_channels: 0.001
+|  |  |  |  user_segments: 1.021
+|  |  |  |  game_invites: 0.001
+|  |  |  |  blocker_ids: 0.001
+|  |  |  |  affine_user_ids: 0.006
+|  |  |  |  experiments: 13.681
+|  |  |  |  required_action: 0.011
+|  |  |  |  authorized_ip_coro: 0.002
+|  |  starting_guild_connect: 0.122
+|  |  presence_started: 0.293
+|  |  guilds_started: 1.383
+|  |  guilds_connect: 44.638
+|  |  presence_connect: 0.001
+|  |  connect_finished: 45.245
+|  |  build_ready: 2.94
+|  |  clean_ready: 0.001
+|  |  optimize_ready: 5.865
+|  |  split_ready: 0.367
+23:01:50.985 › [GatewaySocket] Setting connection state to SESSION_ESTABLISHED
+23:01:50.985 › [GatewaySocket] Updating resume url to wss://gateway-us-east1-d.discord.gg
+23:01:51.005 › [Flux] Dispatching CONNECTION_OPEN
+23:01:51.006 › [AuthenticationStore] handleConnectionOpen called [object Object]
+23:01:51.008 › [DatabaseManager] removing database (user: 1123249141552795728, database: undefined)
+23:01:51.009 › [DatabaseManager] added database (1123249141552795728 → null)
+23:01:51.015 › [NativeDispatchUtils] Tried getting Dispatch instance before instantiated
+23:01:51.026 › [Spotify] WS Connecting
+23:01:51.027 › [Spotify] Added account: wdakoury
+DiscordProcessObserver: Skipping ''
+23:01:51.050 › [OverlayBridgeStore] updateIntendedOverlayPIDs [object Object]
+23:01:51.050 › [OverlayBridgeStore] updateIntendedOverlayPIDs: Removing all. [object Object] [object Object]
+23:01:51.077 › [GatewaySocket] [READY_SUPPLEMENTAL] took 643ms
+23:01:51.077 › [GatewaySocket] Setting connection state to SESSION_ESTABLISHED
+DiscordProcessObserver: Skipping ''
+DiscordProcessObserver: Skipping ''
+DiscordProcessObserver: Skipping ''
+DiscordProcessObserver: Skipping ''
+23:01:51.383 › [discord_protos.discord_users.v1.FrecencyUserSettings] Loading proto
+23:01:51.794 › [Spotify] WS Connected
+23:01:51.819 › Unrecognized Content-Security-Policy directive 'prefetch-src'.
+23:01:51.878 › [Spotify] Devices updated for wdakoury: 
+23:01:51.879 › [Spotify] Profile updated for wdakoury: isPremium = true
+DiscordProcessObserver: Skipping ''
+DiscordProcessObserver: Skipping ''
+DiscordProcessObserver: Skipping ''
+DiscordProcessObserver: Skipping ''
+DiscordProcessObserver: Skipping ''
+blackbox: 2024-11-18T22:01:55.379Z 11 before-quit
+23:01:55.390 › Window state not initialized window-1
+23:01:55.391 › Window state not initialized window-1
+23:01:55.392 › Window state not initialized window-1
+23:01:55.393 › Window state not initialized window-1
+23:01:55.394 › Window state not initialized window-1
+23:01:55.395 › Window state not initialized window-1
+23:01:55.395 › Window state not initialized window-1
+23:01:55.396 › Window state not initialized window-1
+23:01:55.397 › Window state not initialized window-1
+23:01:55.397 › Window state not initialized window-1
+23:01:55.398 › Window state not initialized window-1
+23:01:55.399 › Window state not initialized window-1
+23:01:55.399 › Window state not initialized window-1
+23:01:55.400 › Window state not initialized window-1
+23:01:55.401 › Window state not initialized window-1
+23:01:55.402 › Window state not initialized window-1
+23:01:55.402 › Window state not initialized window-1
+23:01:55.403 › Window state not initialized window-1
+23:01:55.404 › Window state not initialized window-1
+23:01:55.405 › Window state not initialized window-1
+23:01:55.406 › Window state not initialized window-1
+23:01:55.408 › Window state not initialized window-1
+23:01:55.409 › Window state not initialized window-1
+23:01:55.410 › Window state not initialized window-1
+23:01:55.411 › Window state not initialized window-1
+23:01:55.411 › Window state not initialized window-1
+23:01:55.412 › Window state not initialized window-1
+23:01:55.412 › Window state not initialized window-1
+23:01:55.413 › Window state not initialized window-1
+23:01:55.414 › Window state not initialized window-1
+23:01:55.414 › Window state not initialized window-1
+23:01:55.415 › Window state not initialized window-1
+23:01:55.415 › Window state not initialized window-1
+23:01:55.416 › Window state not initialized window-1
+23:01:55.416 › Window state not initialized window-1
+23:01:55.417 › Window state not initialized window-1
+23:01:55.417 › Window state not initialized window-1
+23:01:55.418 › Window state not initialized window-1
+23:01:55.418 › Window state not initialized window-1
+23:01:55.418 › Window state not initialized window-1
+23:01:55.418 › Window state not initialized window-1
+23:01:55.419 › Window state not initialized window-1
+23:01:55.419 › Window state not initialized window-1
+23:01:55.419 › Window state not initialized window-1
+23:01:55.420 › Window state not initialized window-1
+23:01:55.420 › Window state not initialized window-1
+23:01:55.420 › Window state not initialized window-1
+23:01:55.421 › Window state not initialized window-1
+23:01:55.421 › Window state not initialized window-1
+23:01:55.421 › Window state not initialized window-1
+23:01:55.422 › Window state not initialized window-1
+23:01:55.422 › Window state not initialized window-1
+23:01:55.422 › Window state not initialized window-1
+23:01:55.422 › Window state not initialized window-1
+23:01:55.422 › Window state not initialized window-1
+23:01:55.423 › Window state not initialized window-1
+23:01:55.423 › Window state not initialized window-1
+23:01:55.423 › Window state not initialized window-1
+23:01:55.423 › Window state not initialized window-1
+23:01:55.424 › Window state not initialized window-1
+23:01:55.424 › Window state not initialized window-1
+23:01:55.424 › Window state not initialized window-1
+23:01:55.424 › Window state not initialized window-1
+23:01:55.424 › Window state not initialized window-1
+23:01:55.425 › Window state not initialized window-1
+23:01:55.425 › Window state not initialized window-1
+23:01:55.425 › Window state not initialized window-1
+23:01:55.425 › Window state not initialized window-1
+23:01:55.426 › Window state not initialized window-1
+23:01:55.426 › Window state not initialized window-1
+23:01:55.426 › Window state not initialized window-1
+23:01:55.426 › Window state not initialized window-1
+23:01:55.427 › Window state not initialized window-1
+23:01:55.427 › Window state not initialized window-1
+23:01:55.427 › Window state not initialized window-1
+23:01:55.427 › Window state not initialized window-1
+23:01:55.427 › Window state not initialized window-1
+23:01:55.427 › Window state not initialized window-1
+23:01:55.428 › Window state not initialized window-1
+23:01:55.428 › Window state not initialized window-1
+23:01:55.428 › Window state not initialized window-1
+23:01:55.428 › Window state not initialized window-1
+23:01:55.428 › Window state not initialized window-1
+23:01:55.429 › Window state not initialized window-1
+23:01:55.429 › Window state not initialized window-1
+23:01:55.429 › Window state not initialized window-1
+23:01:55.429 › Window state not initialized window-1
+23:01:55.429 › Window state not initialized window-1
+23:01:55.430 › Window state not initialized window-1
+23:01:55.430 › Window state not initialized window-1
+23:01:55.430 › Window state not initialized window-1
+23:01:55.430 › Window state not initialized window-1
+23:01:55.430 › Window state not initialized window-1
+23:01:55.431 › Window state not initialized window-1
+23:01:55.431 › Window state not initialized window-1
+23:01:55.431 › Window state not initialized window-1
+23:01:55.431 › Window state not initialized window-1
+23:01:55.431 › Window state not initialized window-1

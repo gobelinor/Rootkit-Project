@@ -1,0 +1,1 @@
+savedcmd_/home/leyyebou/DevEcole2600/RootkitProjects/Rootkit-Project/mesmodules/hook.mod := printf '%s\n'   hook.o | awk '!x[$$0]++ { print("/home/leyyebou/DevEcole2600/RootkitProjects/Rootkit-Project/mesmodules/"$$0) }' > /home/leyyebou/DevEcole2600/RootkitProjects/Rootkit-Project/mesmodules/hook.mod
