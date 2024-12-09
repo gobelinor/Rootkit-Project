@@ -96,6 +96,7 @@ apk add openrc
 apk add util-linux
 apk add build-base
 apk add vim
+apk add gcc
 
 # Configurer l'accès au terminal série via QEMU
 ln -s agetty /etc/init.d/agetty.ttyS0
@@ -105,11 +106,21 @@ rc-update add root default
 
 # Définir le mot de passe root (changez 'root' par le mot de passe désiré)
 echo "root:root" | chpasswd
+adduser -D user
+echo "user:password" | chpasswd
 
 # Monter les systèmes de fichiers pseudo
 rc-update add devfs boot
 rc-update add procfs boot
 rc-update add sysfs boot
+
+ajout du networking
+rc-update add networking boot
+
+cat << 'EOF2' > /etc/network/interfaces
+auto eth0
+iface eth0 inet dhcp
+EOF2
 
 # Copier les fichiers vers /my-rootfs
 for d in bin etc lib root sbin usr; do tar c "/$d" | tar x -C /my-rootfs; done
