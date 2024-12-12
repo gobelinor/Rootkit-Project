@@ -15,15 +15,19 @@ key=126
 
 # XOR chaque caractère de l'ip
 xor_encrypt() {
-    local input="$1"
-    local key="$2"
-    local result=""
-    for ((i=0; i<${#input}; i++)); do
-        char="${input:i:1}"
-        xor_char=$(( $(printf '%d' "'$char") ^ key ))
-        result+=$(printf "%b" "$(printf "\\%03o" "$xor_char")")
+    input="$1"
+    key="$2"
+    result=""
+    i=0
+    input_len=${#input}
+    while [ "$i" -lt "$input_len" ]; do
+        char=$(printf '%d' "'${input:$i:1}")
+        xor_char=$(( char ^ key ))
+        result="$result$(printf '\\%03o' "$xor_char")"
+        i=$(( i + 1 ))
     done
-    echo -ne "$result"
+    # Interpréter les séquences octales et produire les caractères
+    printf "%b" "$result"
 }
 
 # Appliquer le XOR et afficher les résultats
