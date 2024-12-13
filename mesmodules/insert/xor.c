@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 
     custom_xor(dst, src, key, len);
 
-    printf("XORed string: %s\n", dst);
+    printf("%s\n", dst);
 
     // Libérer la mémoire allouée
     free(dst);
