@@ -72,6 +72,4 @@ sudo qemu-system-x86_64 \
   -drive file="$IMG_IMAGE",format=raw \
   -nographic \
   -virtfs local,path="$SHARE_FOLDER",mount_tag=host0,security_model=passthrough,id=foobar \
-  # -netdev user,id=net0 -device virtio-net-pci,netdev=net0 \
-  # -serial mon:stdio
 

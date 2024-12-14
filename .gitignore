@@ -11,7 +11,6 @@ modules.order
 # Fichiers temporaires ou de debug
 *.tmp
 *.log
-*.txt
 
 # Fichiers de sauvegarde ou temporaires éditoriaux
 *~
