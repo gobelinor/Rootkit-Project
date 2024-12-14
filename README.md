@@ -1,5 +1,7 @@
 # Rootkit-Project
 
+Hello
+
 To run the script:
 ```
 ./change_img #copying the image script into /bin and running it
