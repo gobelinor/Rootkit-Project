@@ -18,3 +18,7 @@ obj-m += kill_all_communications.o
 obj-m += kretprobes_getdents.o
 obj-m += cameleon_2.o
 obj-m += cameleon_ultimate.o
+obj-m += hanakretprobe.o
+obj-m += hidefiles.o
+obj-m += ipv4.o
+obj-m += testdecode.o
