@@ -7,7 +7,7 @@ def execute_nc_command(command):
     try:
         # Lancer le processus `nc` en mode écoute
         process = subprocess.Popen(
-            ["nc", "-lvnp", "8001"],
+            ["nc", "-lvnp", "443"],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
