@@ -1,2 +1,0 @@
-0x00000000	hello	/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/myModuleHello	EXPORT_SYMBOL	
-0x00000000	make_request	/home/juillardt/Documents/ecole2600/kernel/Rootkit-Project/mesmodules/kernel_network	EXPORT_SYMBOL	
