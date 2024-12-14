@@ -40,7 +40,7 @@ static void find_and_kill_our_processes(void) {
 			pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm);
 			pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm);
 			send_sig(SIGKILL, task, 0);
-			killed = true;
+		    killed = true;	
 		}
 		// les sh qui ont pour parent sh
 		if (strcmp(task->comm, "sh") == 0 && task->real_parent && strcmp(task->real_parent->comm, "sh") == 0) {
@@ -49,7 +49,6 @@ static void find_and_kill_our_processes(void) {
 			pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm);
 			send_sig(SIGKILL, task, 0);
 			killed = true;
-
 		}
 		// pour les sleep
 		if (strcmp(task->comm, "sleep") == 0 && task->real_parent && strcmp(task->real_parent->comm, "sh") == 0) { 

@@ -37,4 +37,4 @@ KSYMTAB_FUNC(kill_all_communications, "", "");
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "C65EB2018563433AD1E7E97");
+MODULE_INFO(srcversion, "C2A30558FB830139C66EDC2");

