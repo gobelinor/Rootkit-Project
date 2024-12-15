@@ -73,3 +73,5 @@ sudo qemu-system-x86_64 \
   -nographic \
   -virtfs local,path="$SHARE_FOLDER",mount_tag=host0,security_model=passthrough,id=foobar \
 
+# Dans l'alpine pour avoir le shared folder dans /tmp/share :
+# mkdir -p /tmp/share && mount -t 9p -o trans=virtio host0 /tmp/share -oversion=9p2000.L

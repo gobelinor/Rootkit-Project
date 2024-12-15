@@ -89,6 +89,7 @@ apk add openrc
 apk add util-linux
 apk add build-base
 apk add vim
+apk add gcc
 
 # Configurer l'accès au terminal série via QEMU
 ln -s agetty /etc/init.d/agetty.ttyS0
@@ -98,6 +99,8 @@ rc-update add root default
 
 # Définir le mot de passe root (changez 'root' par le mot de passe désiré)
 echo "root:root" | chpasswd
+adduser -D user
+echo "user:password" | chpasswd
 
 # Monter les systèmes de fichiers pseudo
 rc-update add devfs boot
@@ -165,5 +168,5 @@ mkdir -p $share_folder
 echo "Running QEMU..."
 sudo qemu-system-x86_64 -drive file=disk.img,format=raw -nographic -virtfs local,path=$share_folder,mount_tag=host0,security_model=passthrough,id=foobar 
 
-# Dans qemu pour avoir le shared folder dans /tmp/share :
+# Dans l'alpine pour avoir le shared folder dans /tmp/share :
 # mkdir -p /tmp/share && mount -t 9p -o trans=virtio host0 /tmp/share -oversion=9p2000.L
