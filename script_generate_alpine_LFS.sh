@@ -89,7 +89,6 @@ apk add openrc
 apk add util-linux
 apk add build-base
 apk add vim
-apk add gcc
 
 # Configurer l'accès au terminal série via QEMU
 ln -s agetty /etc/init.d/agetty.ttyS0
