@@ -1,9 +1,13 @@
 # Documentation Utilisateur
 
-Exécuter le script de lancement de l’Alpine 
+Exécuter le script de lancement de l’Alpine LFS :  
 
 ```c
 ./script_generate_alpine_LFS.sh
+```
+Une version plus rapide de ce script fonctionnant avec l'image disk.qcow2 :
+```c
+./script_alpine_qcow2.sh
 ```
 
 Se connecter à l'alpine avec les credentials `root:root`
