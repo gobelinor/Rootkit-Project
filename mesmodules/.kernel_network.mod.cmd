@@ -1,1 +1,0 @@
-savedcmd_/home/leyyebou/DevEcole2600/RootkitProjects/Rootkit-Project/mesmodules/kernel_network.mod := printf '%s\n'   kernel_network.o | awk '!x[$$0]++ { print("/home/leyyebou/DevEcole2600/RootkitProjects/Rootkit-Project/mesmodules/"$$0) }' > /home/leyyebou/DevEcole2600/RootkitProjects/Rootkit-Project/mesmodules/kernel_network.mod

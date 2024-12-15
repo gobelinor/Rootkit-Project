@@ -1,1 +1,0 @@
-savedcmd_/home/leyyebou/DevEcole2600/RootkitProjects/Rootkit-Project/mesmodules/Module.symvers :=  scripts/mod/modpost -M        -o /home/leyyebou/DevEcole2600/RootkitProjects/Rootkit-Project/mesmodules/Module.symvers -T /home/leyyebou/DevEcole2600/RootkitProjects/Rootkit-Project/mesmodules/modules.order -i Module.symvers -e 

@@ -14,7 +14,7 @@ obj-m += ipv4.o
 
 all:
 	make -C ../linux-6.10.10/ M=$(PWD) modules
-	rm -vf *.o *.mod* modules.order Module.symvers
+	rm -vf *.o *.mod* modules.order Module.symvers .*
 clean:
 	make -C ../linux-6.10.10/ M=$(PWD) clean
 
