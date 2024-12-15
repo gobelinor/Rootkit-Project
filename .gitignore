@@ -1,2 +1,26 @@
+# Fichiers objets et compilés
+*.o
+*.mod
+*.mod.c
+*.symvers
+
+# Fichiers de commande générés
+*.cmd
+modules.order
+
+# Fichiers temporaires ou de debug
+*.tmp
+*.log
+
+# Fichiers de sauvegarde ou temporaires éditoriaux
+*~
+.*.swp
+*.bak
+
+# Répertoires temporaires
+/tmp/
+*.d
+
+# Fichiers spécifiques à QEMU
 disk.img
-disk2.qcow2
+disk.qcow2
