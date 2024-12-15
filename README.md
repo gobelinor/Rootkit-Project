@@ -1,5 +1,7 @@
 # Documentation Utilisateur
 
+## Mise en place d’une sandbox alpine LFS
+
 Exécuter le script de lancement de l’Alpine LFS :  
 
 ```c
@@ -11,6 +13,8 @@ Une version plus rapide de ce script fonctionnant avec l'image disk.qcow2 :
 ```
 
 Se connecter à l'alpine avec les credentials `root:root`
+
+## Insertion du rootkit
 
 Récupérer le script d’insertion et l’exécuter dans l'alpine
 
@@ -27,6 +31,8 @@ ip a
 ```
 
 Renseigner l'IP de l'hôte au script d’insertion 
+
+## Interaction depuis la machine hôte
 
 Un des processus de ce rootkit va envoyer un paquet réseau toutes les 30s.
 
@@ -75,6 +81,8 @@ Il est possible de redémarrer l’alpine et le rootkit sera toujours en fonctio
 ```c
 reboot
 ```
+
+## Remarques et points d’attention
 
 Lorsque le module est inséré, vous pouvez remarquer que : 
 
