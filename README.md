@@ -1,3 +1,7 @@
+
+> Projet réalisé dans un cadre académique, à des fins exclusivement pédagogiques.
+
+
 # Documentation Utilisateur
 
 ## Mise en place d’une sandbox alpine LFS
